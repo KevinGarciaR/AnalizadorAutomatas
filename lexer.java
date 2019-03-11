@@ -1,3 +1,5 @@
+package Analizador;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ class lexer implements lexerConstants {
         {
                 try
                 {
-                        lexer analizador=new lexer(new FileInputStream("src/prueba.txt"));
+                        lexer analizador=new lexer(new FileInputStream("C:\\Users\\Power\\eclipse-workspace\\ProyectoAutomatas\\src\\Analizador\\prueba.txt"));
                         //analizador.Start();
                         analizador.programa();
                         for (Identificador v : Identificadores){
