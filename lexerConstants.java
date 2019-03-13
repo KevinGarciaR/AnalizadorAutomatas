@@ -11,39 +11,49 @@ public interface lexerConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int MODIFIER = 5;
+  int MODIFICADOR = 5;
   /** RegularExpression Id. */
   int CLASS = 6;
   /** RegularExpression Id. */
-  int TYPE_SPECIFIER = 7;
+  int TIPODATO = 7;
   /** RegularExpression Id. */
   int IF = 8;
   /** RegularExpression Id. */
-  int WHILE = 9;
+  int ELSE = 9;
   /** RegularExpression Id. */
-  int LPAREN = 10;
+  int ELSEIF = 10;
   /** RegularExpression Id. */
-  int RPAREN = 11;
+  int WHILE = 11;
   /** RegularExpression Id. */
-  int LBRACE = 12;
+  int PARENTESISIZQUIERDO = 12;
   /** RegularExpression Id. */
-  int RBRACE = 13;
+  int PARENTESISDERECHO = 13;
   /** RegularExpression Id. */
-  int SEMICOLON = 14;
+  int LLAVEIZQUIERDA = 14;
   /** RegularExpression Id. */
-  int ASSIGN = 15;
+  int LLAVEDERECHA = 15;
   /** RegularExpression Id. */
-  int EXPRESSION = 16;
+  int PUNTOYCOMA = 16;
   /** RegularExpression Id. */
-  int PLUS = 17;
+  int COMILLASDOBLES = 17;
   /** RegularExpression Id. */
-  int MINUS = 18;
+  int ASIGNACION = 18;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 19;
+  int EXPRESION = 19;
   /** RegularExpression Id. */
-  int BOOLEAN_LITERAL = 20;
+  int MAS = 20;
   /** RegularExpression Id. */
-  int IDENTIFIER = 21;
+  int MENOS = 21;
+  /** RegularExpression Id. */
+  int INTEGER_LITERAL = 22;
+  /** RegularExpression Id. */
+  int BOOLEAN_LITERAL = 23;
+  /** RegularExpression Id. */
+  int DOUBLE_LITERAL = 24;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 25;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 26;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -52,25 +62,30 @@ public interface lexerConstants {
   String[] tokenImage = {
     "<EOF>",
     "\" \"",
-    "\"\\t\"",
+    "\"/t\"",
     "\"\\r\"",
     "\"\\n\"",
-    "<MODIFIER>",
+    "<MODIFICADOR>",
     "\"class\"",
-    "<TYPE_SPECIFIER>",
+    "<TIPODATO>",
     "\"if\"",
+    "\"else\"",
+    "\"else if\"",
     "\"while\"",
     "\"(\"",
     "\")\"",
     "\"{\"",
     "\"}\"",
     "\";\"",
+    "\"\\\"\"",
     "\"=\"",
-    "<EXPRESSION>",
+    "<EXPRESION>",
     "\"+\"",
     "\"-\"",
     "<INTEGER_LITERAL>",
     "<BOOLEAN_LITERAL>",
+    "<DOUBLE_LITERAL>",
+    "<STRING_LITERAL>",
     "<IDENTIFIER>",
   };
 
