@@ -1,25 +1,32 @@
 PARSER_BEGIN(lexer)
+package Analizador;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 class lexer
-{  
+{
+   // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
 		{
-			lexer analizador=new lexer(new FileInputStream("src/prueba.txt"));
+		  
+			lexer analizador=new lexer(new FileInputStream("C:\\Users\\Power\\eclipse-workspace\\ProyectoAutomatas\\src\\Analizador\\prueba.txt"));
 			//analizador.Start();
 			analizador.programa();
-			System.out.println("La cadena fué aceptada");
+			System.out.println("La cadena fue aceptada");
 		}
 		catch(ParseException e)
 		{
 			System.out.println(e.getMessage());
-			//system.out.println("Se han encontrado errores, falló al compilar");
+			//system.out.println("Se han encontrado errores, fallï¿½ al compilar");
 		}
 	}
 }
 PARSER_END(lexer)
 /* Ignorados */
-SKIP: {" " | "/t" | "\r" | "\n" }
+SKIP: {" " | "\t" | "\r" | "\n" }
 
 /* Palabras Reservadas */
 TOKEN :
@@ -60,13 +67,13 @@ TOKEN:
 <INTEGER_LITERAL: ["1"-"9"] (["0"-"9"])* >
 |<BOOLEAN_LITERAL: "false" | "true" >
 |<DOUBLE_LITERAL : (["0"-"9"])+["."](["0"-"9"])+>
-|<STRING_LITERAL: <COMILLASDOBLES>["a"-"z","A"-"Z","0"-"9"," "](["a"-"z","A"-"Z","0"-"9"," ",":",";","."])*<COMILLASDOBLES>>
+|<STRING_LITERAL: <COMILLASDOBLES>(~["\n","\r"])*<COMILLASDOBLES>>
 }
 
 /* Identificador */
 TOKEN:
 {
-	< IDENTIFIER:(["a"-"z","_"])* >{identificadores.add(image.toString());}
+	< IDENTIFICADOR:(["a"-"z","_"])* >
 }
 
 /*===== Operadores Logicos  ======*/
@@ -74,44 +81,63 @@ TOKEN:
 
 void programa():{}{
 	try{
-		<MODIFICADOR> <CLASS> <IDENTIFIER> <LLAVEIZQUIERDA> (variable_declaration()| sentencia())* <LLAVEDERECHA>
+		<MODIFICADOR> <CLASS> <IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
 	}catch(ParseException e){
 		System.out.println("Error de Sintaxis");
 		System.out.println(e.toString());
 	}
 	
 }
-/*Métodos para field_declaration*/
+/*Mï¿½todos para field_declaration*/
 void field_declaration():{}{
 	variable_declaration()
 }
 
-void variable_declaration():{}{
-	<MODIFICADOR> type() variable_declarator()<PUNTOYCOMA>
+void variable_declaration():{
+	Token modificador;
+	Token tipo;
+  }{
+	modificador=<MODIFICADOR> tipo=type() variable_declarator()<PUNTOYCOMA>
+	{
+	  System.out.println(tipo.image);
+	  System.out.println(modificador.image);
+	  Identificador temp = new Identificador();
+	  temp.setTipo(tipo.image);
+	  }
+	  
 }
 
-void type():{}{
-	<TIPODATO>
+Token type():{
+	Token tipo;
+  }{
+	tipo=<TIPODATO>
+	{
+	  return tipo;
+	}
 }
 
 void variable_declarator():{}{
-	<IDENTIFIER> <ASIGNACION> (<INTEGER_LITERAL> | <BOOLEAN_LITERAL> | <DOUBLE_LITERAL> | <STRING_LITERAL>)
-}
+	<IDENTIFICADOR> <ASIGNACION> (<INTEGER_LITERAL> | <BOOLEAN_LITERAL> | <DOUBLE_LITERAL> | <STRING_LITERAL>)
+}	
 
 /*Metodos para sentencia*/
 void sentencia():{}{
-	variable_declaration() | if_sentencia() | while_sentencia()
+	variable_declaration()|if_todo()
+}
+
+void if_todo(): { } {
+	<IF>if_sentencia()(else_if_sentencia())* [else_sentencia()]
 }
 
 void if_sentencia():{}{
-	<IF> <LLAVEIZQUIERDA><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO> <LLAVEDERECHA> (else_if_sentencia() | sentencia() | else_sentencia())
+	<PARENTESISIZQUIERDO>expression()<PARENTESISDERECHO> <LLAVEIZQUIERDA> (sentencia())* <LLAVEDERECHA>
 }
 
 void else_sentencia():{}{
-	<ELSE> <LLAVEIZQUIERDA><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO> <LLAVEDERECHA> (sentencia())
+	<ELSE><LLAVEIZQUIERDA> (sentencia())* <LLAVEDERECHA>
 }
 void else_if_sentencia():{}{
-	<ELSEIF> <LLAVEIZQUIERDA><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO> <LLAVEDERECHA> (sentencia())
+	<ELSEIF>if_sentencia()
 }
 
 void while_sentencia():{}{
@@ -123,6 +149,6 @@ void expression():{}{
 }
 
 void testing_expression():{}{
-	(<INTEGER_LITERAL> | <IDENTIFIER>) <EXPRESION> (<INTEGER_LITERAL> | <IDENTIFIER>)
+	(<INTEGER_LITERAL> | <IDENTIFICADOR>) <EXPRESION> (<INTEGER_LITERAL> | <IDENTIFICADOR>)
 }
 
