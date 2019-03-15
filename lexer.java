@@ -7,7 +7,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 class lexer implements lexerConstants {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
-   HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
+   public static HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
    Identificador identificadores;
         public static void main(String[] args) throws ParseException, FileNotFoundException
         {
@@ -18,6 +18,8 @@ class lexer implements lexerConstants {
                         //analizador.Start();
                         analizador.programa();
                         System.out.println("La cadena fue aceptada");
+
+                        tablaSimbolos.put("a", new Identificador("Nombre", "Valor", "tipoDato", "tipo","uso","modificador"));
                 }
                 catch(ParseException e)
                 {
@@ -65,8 +67,6 @@ class lexer implements lexerConstants {
           System.out.print(tipo.image+ " ");
           System.out.print(modificador.image+ " ");
           System.out.println("*************");
-          Identificador temp = new Identificador();
-          temp.setTipo(tipo.image);
   }
 
   static final public Token type() throws ParseException {
@@ -256,13 +256,6 @@ class lexer implements lexerConstants {
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_10() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_13()) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_9() {
     if (jj_3R_12()) return true;
     return false;
@@ -337,6 +330,13 @@ class lexer implements lexerConstants {
 
   static private boolean jj_3_1() {
     if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_10() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 

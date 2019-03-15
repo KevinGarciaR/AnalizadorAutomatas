@@ -2,13 +2,23 @@ package Analizador;
 
 
 public class Identificador {
-
 	String nombre;
 	String valor;
 	String tipoDato;
 	String tipo;
 	String uso;
 	String modificador;
+
+	public Identificador(String nombre, String valor, String tipoDato, String tipo, String uso, String modificador) {
+		super();
+		this.nombre = nombre;
+		this.valor = valor;
+		this.tipoDato = tipoDato;
+		this.tipo = tipo;
+		this.uso = uso;
+		this.modificador = modificador;
+	}
+
 	
 	public String getNombre() {
 		return nombre;

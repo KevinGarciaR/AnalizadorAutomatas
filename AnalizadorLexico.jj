@@ -8,7 +8,7 @@ import java.util.HashMap;
 class lexer
 {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
-   HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
+   public static HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
    Identificador identificadores;
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
@@ -19,6 +19,8 @@ class lexer
 			//analizador.Start();
 			analizador.programa();
 			System.out.println("La cadena fue aceptada");
+		
+			tablaSimbolos.put(1, new Identificador("Nombre", "Valor", "tipoDato", "tipo","uso","modificador"));
 		}
 		catch(ParseException e)
 		{
@@ -106,8 +108,6 @@ void variable_declaration():{
 	  System.out.print(tipo.image+ " ");
 	  System.out.print(modificador.image+ " ");
 	  System.out.println("*************");
-	  Identificador temp = new Identificador();
-	  temp.setTipo(tipo.image);
 	  }
 	  
 }
