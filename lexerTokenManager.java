@@ -2,6 +2,8 @@
 package Analizador;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 /** Token Manager. */
 public class lexerTokenManager implements lexerConstants

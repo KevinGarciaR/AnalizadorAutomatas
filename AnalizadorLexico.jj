@@ -3,10 +3,13 @@ package Analizador;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.util.Dictionary;
+import java.util.HashMap;
 class lexer
 {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
+   HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
+   Identificador identificadores;
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
@@ -19,6 +22,7 @@ class lexer
 		}
 		catch(ParseException e)
 		{
+		  
 			System.out.println(e.getMessage());
 			//system.out.println("Se han encontrado errores, fall� al compilar");
 		}
@@ -99,8 +103,9 @@ void variable_declaration():{
   }{
 	modificador=<MODIFICADOR> tipo=type() variable_declarator()<PUNTOYCOMA>
 	{
-	  System.out.println(tipo.image);
-	  System.out.println(modificador.image);
+	  System.out.print(tipo.image+ " ");
+	  System.out.print(modificador.image+ " ");
+	  System.out.println("*************");
 	  Identificador temp = new Identificador();
 	  temp.setTipo(tipo.image);
 	  }
@@ -116,8 +121,18 @@ Token type():{
 	}
 }
 
+
+
 void variable_declarator():{}{
-	<IDENTIFICADOR> <ASIGNACION> (<INTEGER_LITERAL> | <BOOLEAN_LITERAL> | <DOUBLE_LITERAL> | <STRING_LITERAL>)
+  {
+  Token identificador;
+  Token valor;
+  } 
+	identificador=<IDENTIFICADOR> <ASIGNACION> (valor=<INTEGER_LITERAL> | valor=<BOOLEAN_LITERAL> | valor=<DOUBLE_LITERAL> | valor=<STRING_LITERAL>)
+	{
+	  System.out.print(identificador.image + " ");
+	  System.out.print(valor.image + " ");
+	}
 }	
 
 /*Metodos para sentencia*/
@@ -141,7 +156,7 @@ void else_if_sentencia():{}{
 }
 
 void while_sentencia():{}{
-	<WHILE> <LLAVEIZQUIERDA><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO><LLAVEDERECHA> sentencia()
+	<WHILE><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO><LLAVEIZQUIERDA>(sentencia())*<LLAVEDERECHA>
 }
 
 void expression():{}{
