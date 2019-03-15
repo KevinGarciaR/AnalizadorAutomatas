@@ -112,6 +112,9 @@ class lexer implements lexerConstants {
     case IF:
       if_todo();
       break;
+    case WHILE:
+      while_sentencia();
+      break;
     default:
       jj_la1[1] = jj_gen;
       jj_consume_token(-1);
@@ -154,6 +157,7 @@ class lexer implements lexerConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MODIFICADOR:
       case IF:
+      case WHILE:
         ;
         break;
       default:
@@ -173,6 +177,7 @@ class lexer implements lexerConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MODIFICADOR:
       case IF:
+      case WHILE:
         ;
         break;
       default:
@@ -200,6 +205,7 @@ class lexer implements lexerConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MODIFICADOR:
       case IF:
+      case WHILE:
         ;
         break;
       default:
@@ -250,20 +256,25 @@ class lexer implements lexerConstants {
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_9() {
+  static private boolean jj_3R_10() {
     if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_11()) return true;
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_13()) return true;
     if (jj_3R_14()) return true;
     return false;
   }
 
+  static private boolean jj_3R_9() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_15() {
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_17() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(22)) {
@@ -273,24 +284,24 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_12() {
+  static private boolean jj_3R_14() {
     if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
-  static private boolean jj_3R_10() {
+  static private boolean jj_3R_11() {
     if (jj_scan_token(IF)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_11() {
+  static private boolean jj_3R_13() {
     if (jj_scan_token(TIPODATO)) return true;
     return false;
   }
 
-  static private boolean jj_3R_14() {
-    if (jj_3R_15()) return true;
+  static private boolean jj_3R_16() {
+    if (jj_3R_17()) return true;
     return false;
   }
 
@@ -299,18 +310,28 @@ class lexer implements lexerConstants {
     xsp = jj_scanpos;
     if (jj_3R_7()) {
     jj_scanpos = xsp;
-    if (jj_3R_8()) return true;
+    if (jj_3R_8()) {
+    jj_scanpos = xsp;
+    if (jj_3R_9()) return true;
+    }
     }
     return false;
   }
 
   static private boolean jj_3R_7() {
-    if (jj_3R_9()) return true;
+    if (jj_3R_10()) return true;
     return false;
   }
 
   static private boolean jj_3R_8() {
-    if (jj_3R_10()) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_12() {
+    if (jj_scan_token(WHILE)) return true;
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_16()) return true;
     return false;
   }
 
@@ -337,7 +358,7 @@ class lexer implements lexerConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x3c00000,0x120,0x400,0x200,0x120,0x120,0x120,0x4400000,0x4400000,};
+      jj_la1_0 = new int[] {0x3c00000,0x920,0x400,0x200,0x920,0x920,0x920,0x4400000,0x4400000,};
    }
   static final private JJCalls[] jj_2_rtns = new JJCalls[1];
   static private boolean jj_rescan = false;

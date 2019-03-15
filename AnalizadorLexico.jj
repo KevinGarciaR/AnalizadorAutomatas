@@ -137,7 +137,7 @@ void variable_declarator():{}{
 
 /*Metodos para sentencia*/
 void sentencia():{}{
-	variable_declaration()|if_todo()
+	variable_declaration()|if_todo()|while_sentencia()
 }
 
 void if_todo(): { } {
