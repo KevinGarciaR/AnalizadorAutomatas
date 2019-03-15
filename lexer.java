@@ -10,7 +10,7 @@ class lexer implements lexerConstants {
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
    Identificador identificadores;
-   static Identificador temp=new Identificador("","","","","","");
+
         public static void main(String[] args) throws ParseException, FileNotFoundException
         {
                 try
@@ -19,13 +19,13 @@ class lexer implements lexerConstants {
                         lexer analizador=new lexer(new FileInputStream("C:\u005c\u005cUsers\u005c\u005cPower\u005c\u005ceclipse-workspace\u005c\u005cProyectoAutomatas\u005c\u005csrc\u005c\u005cAnalizador\u005c\u005cprueba.txt"));
                         //analizador.Start();
                         analizador.programa();
-                          for (Identificador v : tablaSimbolos){
-                                System.out.println("Nombre: "+v.getNombre()+
-                                                ", Tipo: "+v.getTipo()+
-                                                ", Uso: "+v.getUso()+
-                                                ", TipoDato: "+v.getTipoDato()+
-                                                ", Modificador: "+v.getModificador()+
-                                                ", Valor: "+v.getValor());
+                          for ( int i = 0; i < tablaSimbolos.size(); i ++){
+                                System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
+                                                ", Tipo: "+tablaSimbolos.get(i).getTipo()+
+                                                ", Uso: "+tablaSimbolos.get(i).getUso()+
+                                                ", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
+                                                ", Modificador: "+tablaSimbolos.get(i).getModificador()+
+                                                ", Valor: "+tablaSimbolos.get(i).getValor());
                         }
                         System.out.println("La cadena fue aceptada");
                         System.out.println(tablaSimbolos.size());
@@ -75,6 +75,7 @@ class lexer implements lexerConstants {
     jj_consume_token(PUNTOYCOMA);
           System.out.print(tipo.image+ " ");
           System.out.print(modificador.image+ " ");
+          Identificador temp=new Identificador("","","","","","");
           temp.setTipo(tipo.image);
           temp.setModificador(modificador.image);
            tablaSimbolos.put(pos,temp);
@@ -114,6 +115,7 @@ class lexer implements lexerConstants {
     }
           System.out.print(identificador.image + " ");
           System.out.print(valor.image + " ");
+          Identificador temp=new Identificador("","","","","","");
            temp.setNombre(identificador.image);
            temp.setValor(valor.image);
            tablaSimbolos.put(pos,temp);
@@ -294,6 +296,12 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3R_11() {
+    if (jj_scan_token(IF)) return true;
+    if (jj_3R_15()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_10() {
     if (jj_scan_token(MODIFICADOR)) return true;
     if (jj_3R_13()) return true;
@@ -301,19 +309,8 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_11() {
-    if (jj_scan_token(IF)) return true;
-    if (jj_3R_15()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_16() {
     if (jj_3R_17()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
@@ -337,6 +334,11 @@ class lexer implements lexerConstants {
 
   static private boolean jj_3R_8() {
     if (jj_3R_11()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 

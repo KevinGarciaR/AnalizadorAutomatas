@@ -11,7 +11,7 @@ class lexer
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
    Identificador identificadores;
-   static Identificador temp=new Identificador("","","","","","");
+  
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
@@ -20,13 +20,13 @@ class lexer
 			lexer analizador=new lexer(new FileInputStream("C:\\Users\\Power\\eclipse-workspace\\ProyectoAutomatas\\src\\Analizador\\prueba.txt"));
 			//analizador.Start();
 			analizador.programa();
-			  for (Identificador v : tablaSimbolos){
-                        	System.out.println("Nombre: "+v.getNombre()+
-                        			", Tipo: "+v.getTipo()+
-                        			", Uso: "+v.getUso()+
-                        			", TipoDato: "+v.getTipoDato()+
-                        			", Modificador: "+v.getModificador()+
-                        			", Valor: "+v.getValor());
+			  for ( int i = 0; i < tablaSimbolos.size(); i ++){
+                        	System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
+                        			", Tipo: "+tablaSimbolos.get(i).getTipo()+
+                        			", Uso: "+tablaSimbolos.get(i).getUso()+
+                        			", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
+                        			", Modificador: "+tablaSimbolos.get(i).getModificador()+
+                        			", Valor: "+tablaSimbolos.get(i).getValor());
                         }
 			System.out.println("La cadena fue aceptada");
 			System.out.println(tablaSimbolos.size());
@@ -118,6 +118,7 @@ void variable_declaration():{
 	{
 	  System.out.print(tipo.image+ " ");
 	  System.out.print(modificador.image+ " ");
+	  Identificador temp=new Identificador("","","","","","");
 	  temp.setTipo(tipo.image);
 	  temp.setModificador(modificador.image);
 	   tablaSimbolos.put(pos,temp);
@@ -147,6 +148,7 @@ void variable_declarator():{}{
 	{
 	  System.out.print(identificador.image + " ");
 	  System.out.print(valor.image + " ");
+	  Identificador temp=new Identificador("","","","","","");
 	   temp.setNombre(identificador.image);
 	   temp.setValor(valor.image);
 	   tablaSimbolos.put(pos,temp);
