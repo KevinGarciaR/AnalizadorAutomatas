@@ -7,8 +7,10 @@ import java.util.Dictionary;
 import java.util.HashMap;
 class lexer implements lexerConstants {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
-   public static HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
+   public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
+   static int pos=0;
    Identificador identificadores;
+   static Identificador temp=new Identificador("","","","","","");
         public static void main(String[] args) throws ParseException, FileNotFoundException
         {
                 try
@@ -17,9 +19,16 @@ class lexer implements lexerConstants {
                         lexer analizador=new lexer(new FileInputStream("C:\u005c\u005cUsers\u005c\u005cPower\u005c\u005ceclipse-workspace\u005c\u005cProyectoAutomatas\u005c\u005csrc\u005c\u005cAnalizador\u005c\u005cprueba.txt"));
                         //analizador.Start();
                         analizador.programa();
+                          for (Identificador v : tablaSimbolos){
+                                System.out.println("Nombre: "+v.getNombre()+
+                                                ", Tipo: "+v.getTipo()+
+                                                ", Uso: "+v.getUso()+
+                                                ", TipoDato: "+v.getTipoDato()+
+                                                ", Modificador: "+v.getModificador()+
+                                                ", Valor: "+v.getValor());
+                        }
                         System.out.println("La cadena fue aceptada");
-
-                        tablaSimbolos.put("a", new Identificador("Nombre", "Valor", "tipoDato", "tipo","uso","modificador"));
+                        System.out.println(tablaSimbolos.size());
                 }
                 catch(ParseException e)
                 {
@@ -66,6 +75,10 @@ class lexer implements lexerConstants {
     jj_consume_token(PUNTOYCOMA);
           System.out.print(tipo.image+ " ");
           System.out.print(modificador.image+ " ");
+          temp.setTipo(tipo.image);
+          temp.setModificador(modificador.image);
+           tablaSimbolos.put(pos,temp);
+           pos++;
           System.out.println("*************");
   }
 
@@ -101,6 +114,10 @@ class lexer implements lexerConstants {
     }
           System.out.print(identificador.image + " ");
           System.out.print(valor.image + " ");
+           temp.setNombre(identificador.image);
+           temp.setValor(valor.image);
+           tablaSimbolos.put(pos,temp);
+           pos++;
   }
 
 /*Metodos para sentencia*/
@@ -277,8 +294,10 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
+  static private boolean jj_3R_10() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
@@ -288,13 +307,13 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(TIPODATO)) return true;
+  static private boolean jj_3R_16() {
+    if (jj_3R_17()) return true;
     return false;
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_3R_17()) return true;
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
@@ -321,6 +340,11 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(TIPODATO)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_12() {
     if (jj_scan_token(WHILE)) return true;
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
@@ -330,13 +354,6 @@ class lexer implements lexerConstants {
 
   static private boolean jj_3_1() {
     if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_10() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_13()) return true;
-    if (jj_3R_14()) return true;
     return false;
   }
 

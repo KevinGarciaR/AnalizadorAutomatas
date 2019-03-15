@@ -8,8 +8,10 @@ import java.util.HashMap;
 class lexer
 {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
-   public static HashMap<String,Identificador> tablaSimbolos = new HashMap<String,Identificador>();
+   public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
+   static int pos=0;
    Identificador identificadores;
+   static Identificador temp=new Identificador("","","","","","");
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
@@ -18,9 +20,16 @@ class lexer
 			lexer analizador=new lexer(new FileInputStream("C:\\Users\\Power\\eclipse-workspace\\ProyectoAutomatas\\src\\Analizador\\prueba.txt"));
 			//analizador.Start();
 			analizador.programa();
+			  for (Identificador v : tablaSimbolos){
+                        	System.out.println("Nombre: "+v.getNombre()+
+                        			", Tipo: "+v.getTipo()+
+                        			", Uso: "+v.getUso()+
+                        			", TipoDato: "+v.getTipoDato()+
+                        			", Modificador: "+v.getModificador()+
+                        			", Valor: "+v.getValor());
+                        }
 			System.out.println("La cadena fue aceptada");
-		
-			tablaSimbolos.put(1, new Identificador("Nombre", "Valor", "tipoDato", "tipo","uso","modificador"));
+			System.out.println(tablaSimbolos.size());
 		}
 		catch(ParseException e)
 		{
@@ -87,7 +96,9 @@ TOKEN:
 
 void programa():{}{
 	try{
-		<MODIFICADOR> <CLASS> <IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
+	<MODIFICADOR> <CLASS> <IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
+	  
+		
 	}catch(ParseException e){
 		System.out.println("Error de Sintaxis");
 		System.out.println(e.toString());
@@ -107,6 +118,10 @@ void variable_declaration():{
 	{
 	  System.out.print(tipo.image+ " ");
 	  System.out.print(modificador.image+ " ");
+	  temp.setTipo(tipo.image);
+	  temp.setModificador(modificador.image);
+	   tablaSimbolos.put(pos,temp);
+	   pos++;
 	  System.out.println("*************");
 	  }
 	  
@@ -132,6 +147,10 @@ void variable_declarator():{}{
 	{
 	  System.out.print(identificador.image + " ");
 	  System.out.print(valor.image + " ");
+	   temp.setNombre(identificador.image);
+	   temp.setValor(valor.image);
+	   tablaSimbolos.put(pos,temp);
+	   pos++;
 	}
 }	
 
