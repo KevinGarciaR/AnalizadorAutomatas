@@ -9,8 +9,10 @@ class lexer implements lexerConstants {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
+   static String modificadorTemp, tipoTemp, nombreTemp, valorTemp;
    Identificador identificadores;
-
+   static Token modificador;
+   static Token tipo;
         public static void main(String[] args) throws ParseException, FileNotFoundException
         {
                 try
@@ -19,6 +21,10 @@ class lexer implements lexerConstants {
                         lexer analizador=new lexer(new FileInputStream("C:\u005c\u005cUsers\u005c\u005cPower\u005c\u005ceclipse-workspace\u005c\u005cProyectoAutomatas\u005c\u005csrc\u005c\u005cAnalizador\u005c\u005cprueba.txt"));
                         //analizador.Start();
                         analizador.programa();
+                        System.out.println("****************************************************************************************************");
+                        System.out.println("La cadena fue aceptada");
+                        System.out.println("Numero de Tokens:"+ tablaSimbolos.size());
+                        System.out.println("****************************************************************************************************");
                           for ( int i = 0; i < tablaSimbolos.size(); i ++){
                                 System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
                                                 ", Tipo: "+tablaSimbolos.get(i).getTipo()+
@@ -27,8 +33,7 @@ class lexer implements lexerConstants {
                                                 ", Modificador: "+tablaSimbolos.get(i).getModificador()+
                                                 ", Valor: "+tablaSimbolos.get(i).getValor());
                         }
-                        System.out.println("La cadena fue aceptada");
-                        System.out.println(tablaSimbolos.size());
+
                 }
                 catch(ParseException e)
                 {
@@ -40,10 +45,12 @@ class lexer implements lexerConstants {
 
 /*===== Operadores Logicos  ======*/
   static final public void programa() throws ParseException {
+    Token nombre;
+    Token modificador;
     try {
-      jj_consume_token(MODIFICADOR);
+      modificador = jj_consume_token(MODIFICADOR);
       jj_consume_token(CLASS);
-      jj_consume_token(IDENTIFICADOR);
+      nombre = jj_consume_token(IDENTIFICADOR);
       jj_consume_token(LLAVEIZQUIERDA);
       label_1:
       while (true) {
@@ -55,6 +62,14 @@ class lexer implements lexerConstants {
         sentencia();
       }
       jj_consume_token(LLAVEDERECHA);
+         Identificador temp=new Identificador("","","","","","");
+          temp.setTipo("Clase");
+      temp.setUso("Declaracion");
+          temp.setNombre(nombre.image);
+          temp.setModificador(modificador.image);
+          temp.setValor("No aplica");
+          tablaSimbolos.put(pos,temp);
+           pos++;
     } catch (ParseException e) {
                 System.out.println("Error de Sintaxis");
                 System.out.println(e.toString());
@@ -67,20 +82,23 @@ class lexer implements lexerConstants {
   }
 
   static final public void variable_declaration() throws ParseException {
-        Token modificador;
-        Token tipo;
     modificador = jj_consume_token(MODIFICADOR);
     tipo = type();
     variable_declarator();
     jj_consume_token(PUNTOYCOMA);
-          System.out.print(tipo.image+ " ");
-          System.out.print(modificador.image+ " ");
-          Identificador temp=new Identificador("","","","","","");
-          temp.setTipo(tipo.image);
-          temp.setModificador(modificador.image);
-           tablaSimbolos.put(pos,temp);
+          Identificador tempgeneral=new Identificador("","","","","","");
+          //System.out.print(tipo.image+ " ");
+          //System.out.print(modificador.image+ " ");
+          tipoTemp=tipo.image;
+          modificadorTemp=modificador.image;
+          tempgeneral.setModificador(modificadorTemp);
+          tempgeneral.setTipo(tipoTemp);
+          tempgeneral.setNombre(nombreTemp);
+          tempgeneral.setValor(valorTemp);
+           tablaSimbolos.put(pos,tempgeneral);
            pos++;
-          System.out.println("*************");
+          //System.out.println("*************");
+
   }
 
   static final public Token type() throws ParseException {
@@ -113,13 +131,10 @@ class lexer implements lexerConstants {
       jj_consume_token(-1);
       throw new ParseException();
     }
-          System.out.print(identificador.image + " ");
-          System.out.print(valor.image + " ");
-          Identificador temp=new Identificador("","","","","","");
-           temp.setNombre(identificador.image);
-           temp.setValor(valor.image);
-           tablaSimbolos.put(pos,temp);
-           pos++;
+           //System.out.print(identificador.image + " ");
+           //System.out.print(valor.image + " ");
+           nombreTemp=identificador.image;
+           valorTemp=valor.image;
   }
 
 /*Metodos para sentencia*/
@@ -296,9 +311,19 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_11() {
     if (jj_scan_token(IF)) return true;
     if (jj_3R_15()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_14() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
     return false;
   }
 
@@ -337,11 +362,6 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_13() {
     if (jj_scan_token(TIPODATO)) return true;
     return false;
@@ -351,11 +371,6 @@ class lexer implements lexerConstants {
     if (jj_scan_token(WHILE)) return true;
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
     if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
     return false;
   }
 

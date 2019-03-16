@@ -10,8 +10,10 @@ class lexer
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
+   static String modificadorTemp, tipoTemp, nombreTemp, valorTemp;
    Identificador identificadores;
-  
+   static Token modificador;
+   static Token tipo;
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
@@ -20,6 +22,10 @@ class lexer
 			lexer analizador=new lexer(new FileInputStream("C:\\Users\\Power\\eclipse-workspace\\ProyectoAutomatas\\src\\Analizador\\prueba.txt"));
 			//analizador.Start();
 			analizador.programa();
+			System.out.println("****************************************************************************************************");
+			System.out.println("La cadena fue aceptada");
+			System.out.println("Numero de Tokens:"+ tablaSimbolos.size());
+			System.out.println("****************************************************************************************************");
 			  for ( int i = 0; i < tablaSimbolos.size(); i ++){
                         	System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
                         			", Tipo: "+tablaSimbolos.get(i).getTipo()+
@@ -28,8 +34,7 @@ class lexer
                         			", Modificador: "+tablaSimbolos.get(i).getModificador()+
                         			", Valor: "+tablaSimbolos.get(i).getValor());
                         }
-			System.out.println("La cadena fue aceptada");
-			System.out.println(tablaSimbolos.size());
+			
 		}
 		catch(ParseException e)
 		{
@@ -95,9 +100,22 @@ TOKEN:
 
 
 void programa():{}{
+  {
+    Token nombre;
+    Token modificador;
+  }
 	try{
-	<MODIFICADOR> <CLASS> <IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
-	  
+	modificador=<MODIFICADOR> <CLASS> nombre=<IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
+	{
+	 Identificador temp=new Identificador("","","","","","");
+	  temp.setTipo("Clase");
+      temp.setUso("Declaracion");
+	  temp.setNombre(nombre.image);
+	  temp.setModificador(modificador.image);
+	  temp.setValor("No aplica");
+	  tablaSimbolos.put(pos,temp);
+	   pos++;
+	}  
 		
 	}catch(ParseException e){
 		System.out.println("Error de Sintaxis");
@@ -111,19 +129,22 @@ void field_declaration():{}{
 }
 
 void variable_declaration():{
-	Token modificador;
-	Token tipo;
+	
   }{
 	modificador=<MODIFICADOR> tipo=type() variable_declarator()<PUNTOYCOMA>
 	{
-	  System.out.print(tipo.image+ " ");
-	  System.out.print(modificador.image+ " ");
-	  Identificador temp=new Identificador("","","","","","");
-	  temp.setTipo(tipo.image);
-	  temp.setModificador(modificador.image);
-	   tablaSimbolos.put(pos,temp);
+	  Identificador tempgeneral=new Identificador("","","","","","");
+	  //System.out.print(tipo.image+ " ");
+	  //System.out.print(modificador.image+ " ");
+	  tipoTemp=tipo.image;
+	  modificadorTemp=modificador.image;
+	  tempgeneral.setModificador(modificadorTemp);
+	  tempgeneral.setTipo(tipoTemp);
+	  tempgeneral.setNombre(nombreTemp);
+	  tempgeneral.setValor(valorTemp);
+	   tablaSimbolos.put(pos,tempgeneral);
 	   pos++;
-	  System.out.println("*************");
+	  //System.out.println("*************");
 	  }
 	  
 }
@@ -138,7 +159,6 @@ Token type():{
 }
 
 
-
 void variable_declarator():{}{
   {
   Token identificador;
@@ -146,13 +166,11 @@ void variable_declarator():{}{
   } 
 	identificador=<IDENTIFICADOR> <ASIGNACION> (valor=<INTEGER_LITERAL> | valor=<BOOLEAN_LITERAL> | valor=<DOUBLE_LITERAL> | valor=<STRING_LITERAL>)
 	{
-	  System.out.print(identificador.image + " ");
-	  System.out.print(valor.image + " ");
-	  Identificador temp=new Identificador("","","","","","");
-	   temp.setNombre(identificador.image);
-	   temp.setValor(valor.image);
-	   tablaSimbolos.put(pos,temp);
-	   pos++;
+	   //System.out.print(identificador.image + " ");
+	   //System.out.print(valor.image + " ");
+	   nombreTemp=identificador.image;
+	   valorTemp=valor.image;
+
 	}
 }	
 
