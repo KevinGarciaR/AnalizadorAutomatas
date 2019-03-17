@@ -9,10 +9,10 @@ class lexer implements lexerConstants {
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
-   static String modificadorTemp, tipoTemp, nombreTemp, valorTemp;
+   static String modificadorTemp, tipoDatoTemp, nombreTemp, valorTemp;
    Identificador identificadores;
    static Token modificador;
-   static Token tipo;
+   static Token tipoDato;
         public static void main(String[] args) throws ParseException, FileNotFoundException
         {
                 try
@@ -25,7 +25,16 @@ class lexer implements lexerConstants {
                         System.out.println("La cadena fue aceptada");
                         System.out.println("Numero de Tokens:"+ tablaSimbolos.size());
                         System.out.println("****************************************************************************************************");
-                          for ( int i = 0; i < tablaSimbolos.size(); i ++){
+                        //Impresion Clase
+                        int posclase=tablaSimbolos.size()-1;
+                System.out.println("Nombre: "+tablaSimbolos.get(posclase).getNombre()+
+                                                ", Tipo: "+tablaSimbolos.get(posclase).getTipo()+
+                                                ", Uso: "+tablaSimbolos.get(posclase).getUso()+
+                                                ", TipoDato: "+tablaSimbolos.get(posclase).getTipoDato()+
+                                                ", Modificador: "+tablaSimbolos.get(posclase).getModificador()+
+                                                ", Valor: "+tablaSimbolos.get(posclase).getValor());
+              //Impresion de los demas Tokens
+                          for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
                                 System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
                                                 ", Tipo: "+tablaSimbolos.get(i).getTipo()+
                                                 ", Uso: "+tablaSimbolos.get(i).getUso()+
@@ -65,6 +74,7 @@ class lexer implements lexerConstants {
          Identificador temp=new Identificador("","","","","","");
           temp.setTipo("Clase");
       temp.setUso("Declaracion");
+      temp.setTipoDato("No Aplica");
           temp.setNombre(nombre.image);
           temp.setModificador(modificador.image);
           temp.setValor("No aplica");
@@ -83,16 +93,18 @@ class lexer implements lexerConstants {
 
   static final public void variable_declaration() throws ParseException {
     modificador = jj_consume_token(MODIFICADOR);
-    tipo = type();
+    tipoDato = type();
     variable_declarator();
     jj_consume_token(PUNTOYCOMA);
           Identificador tempgeneral=new Identificador("","","","","","");
           //System.out.print(tipo.image+ " ");
           //System.out.print(modificador.image+ " ");
-          tipoTemp=tipo.image;
+           tipoDatoTemp=tipoDato.image;
           modificadorTemp=modificador.image;
+          tempgeneral.setTipo("Variable");
+          tempgeneral.setUso("Declaracion");
           tempgeneral.setModificador(modificadorTemp);
-          tempgeneral.setTipo(tipoTemp);
+          tempgeneral.setTipoDato(tipoDatoTemp);
           tempgeneral.setNombre(nombreTemp);
           tempgeneral.setValor(valorTemp);
            tablaSimbolos.put(pos,tempgeneral);
@@ -256,12 +268,13 @@ class lexer implements lexerConstants {
   }
 
   static final public void testing_expression() throws ParseException {
+   Token nombrecomparacion=null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER_LITERAL:
       jj_consume_token(INTEGER_LITERAL);
       break;
     case IDENTIFICADOR:
-      jj_consume_token(IDENTIFICADOR);
+      nombrecomparacion = jj_consume_token(IDENTIFICADOR);
       break;
     default:
       jj_la1[7] = jj_gen;
@@ -274,13 +287,19 @@ class lexer implements lexerConstants {
       jj_consume_token(INTEGER_LITERAL);
       break;
     case IDENTIFICADOR:
-      jj_consume_token(IDENTIFICADOR);
+      nombrecomparacion = jj_consume_token(IDENTIFICADOR);
       break;
     default:
       jj_la1[8] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+         Identificador tempgeneral=new Identificador("","","","","","");
+         tempgeneral.setNombre(nombrecomparacion.image);
+         tempgeneral.setTipo("Variable");
+     tempgeneral.setUso("Comparacion");
+     tablaSimbolos.put(pos,tempgeneral);
+         pos++;
   }
 
   static private boolean jj_2_1(int xla) {
@@ -288,32 +307,6 @@ class lexer implements lexerConstants {
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
-  }
-
-  static private boolean jj_3R_9() {
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_17() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(22)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(26)) return true;
-    }
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
-    return false;
   }
 
   static private boolean jj_3R_11() {
@@ -327,10 +320,8 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_10() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_13()) return true;
-    if (jj_3R_14()) return true;
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
     return false;
   }
 
@@ -367,8 +358,36 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3R_10() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(22)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(26)) return true;
+    }
+    return false;
+  }
+
   static private boolean jj_3R_12() {
     if (jj_scan_token(WHILE)) return true;
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_9() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
     if (jj_3R_16()) return true;
     return false;

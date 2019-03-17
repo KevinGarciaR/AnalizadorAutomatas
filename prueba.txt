@@ -1,18 +1,14 @@
-private class hola{
-public int a=1;
-public int b=2.2;
-private double c=3.4;
-private double d=4.1;
-public string frijolespuercos="hola";
-public boolean vb=true;
-while(1==2){
-if(2==3){
-}
-}
-	if(1==1){
-	while(2==2){
-	}
-	}else if(1==2){
-	}
+public class funcion {
 	
+	public int var_uno = 5;
+	public int var_dos = 5;
+	
+	if(var_uno>5){
+		private int var_tres=3;
+		}
+	while(var_uno>1){
+		if (var_dos>2){
+		}}
+		
+			public int var_cuatro=4;
 }

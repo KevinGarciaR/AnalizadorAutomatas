@@ -10,10 +10,10 @@ class lexer
    // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
-   static String modificadorTemp, tipoTemp, nombreTemp, valorTemp;
+   static String modificadorTemp, tipoDatoTemp, nombreTemp, valorTemp;
    Identificador identificadores;
    static Token modificador;
-   static Token tipo;
+   static Token tipoDato;
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
@@ -26,7 +26,16 @@ class lexer
 			System.out.println("La cadena fue aceptada");
 			System.out.println("Numero de Tokens:"+ tablaSimbolos.size());
 			System.out.println("****************************************************************************************************");
-			  for ( int i = 0; i < tablaSimbolos.size(); i ++){
+			//Impresion Clase
+			int posclase=tablaSimbolos.size()-1;
+		System.out.println("Nombre: "+tablaSimbolos.get(posclase).getNombre()+
+                        			", Tipo: "+tablaSimbolos.get(posclase).getTipo()+
+                        			", Uso: "+tablaSimbolos.get(posclase).getUso()+
+                        			", TipoDato: "+tablaSimbolos.get(posclase).getTipoDato()+
+                        			", Modificador: "+tablaSimbolos.get(posclase).getModificador()+
+                        			", Valor: "+tablaSimbolos.get(posclase).getValor());
+              //Impresion de los demas Tokens
+			  for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
                         	System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
                         			", Tipo: "+tablaSimbolos.get(i).getTipo()+
                         			", Uso: "+tablaSimbolos.get(i).getUso()+
@@ -110,6 +119,7 @@ void programa():{}{
 	 Identificador temp=new Identificador("","","","","","");
 	  temp.setTipo("Clase");
       temp.setUso("Declaracion");
+      temp.setTipoDato("No Aplica");
 	  temp.setNombre(nombre.image);
 	  temp.setModificador(modificador.image);
 	  temp.setValor("No aplica");
@@ -131,15 +141,17 @@ void field_declaration():{}{
 void variable_declaration():{
 	
   }{
-	modificador=<MODIFICADOR> tipo=type() variable_declarator()<PUNTOYCOMA>
+	modificador=<MODIFICADOR> tipoDato=type() variable_declarator()<PUNTOYCOMA>
 	{
 	  Identificador tempgeneral=new Identificador("","","","","","");
 	  //System.out.print(tipo.image+ " ");
 	  //System.out.print(modificador.image+ " ");
-	  tipoTemp=tipo.image;
+	   tipoDatoTemp=tipoDato.image;
 	  modificadorTemp=modificador.image;
+	  tempgeneral.setTipo("Variable");
+	  tempgeneral.setUso("Declaracion");
 	  tempgeneral.setModificador(modificadorTemp);
-	  tempgeneral.setTipo(tipoTemp);
+	  tempgeneral.setTipoDato(tipoDatoTemp);
 	  tempgeneral.setNombre(nombreTemp);
 	  tempgeneral.setValor(valorTemp);
 	   tablaSimbolos.put(pos,tempgeneral);
@@ -203,6 +215,17 @@ void expression():{}{
 }
 
 void testing_expression():{}{
-	(<INTEGER_LITERAL> | <IDENTIFICADOR>) <EXPRESION> (<INTEGER_LITERAL> | <IDENTIFICADOR>)
+  {
+   Token nombrecomparacion=null;
+  }
+	(<INTEGER_LITERAL> | nombrecomparacion=<IDENTIFICADOR>) <EXPRESION> (<INTEGER_LITERAL> | nombrecomparacion=<IDENTIFICADOR>)
+	{
+	 Identificador tempgeneral=new Identificador("","","","","","");
+	 tempgeneral.setNombre(nombrecomparacion.image);
+	 tempgeneral.setTipo("Variable");
+     tempgeneral.setUso("Comparacion");
+     tablaSimbolos.put(pos,tempgeneral);
+	 pos++;
+	}
 }
 
