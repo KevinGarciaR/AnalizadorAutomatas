@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Dictionary;
 import java.util.HashMap;
+
 class lexer
 {
-   // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
    static String modificadorTemp, tipoDatoTemp, nombreTemp, valorTemp;
@@ -124,12 +124,13 @@ void programa():{}{
 	  temp.setModificador(modificador.image);
 	  temp.setValor("No aplica");
 	  tablaSimbolos.put(pos,temp);
-	   pos++;
+	  pos++;
 	}  
 		
 	}catch(ParseException e){
 		System.out.println("Error de Sintaxis");
 		System.out.println(e.toString());
+		
 	}
 	
 }
@@ -154,8 +155,12 @@ void variable_declaration():{
 	  tempgeneral.setTipoDato(tipoDatoTemp);
 	  tempgeneral.setNombre(nombreTemp);
 	  tempgeneral.setValor(valorTemp);
+	   Validacion val=new Validacion();
+	   val.checarSiExisteToken(tempgeneral);
+	   val.checarTipoDato(tempgeneral);
 	   tablaSimbolos.put(pos,tempgeneral);
 	   pos++;
+	   
 	  //System.out.println("*************");
 	  }
 	  

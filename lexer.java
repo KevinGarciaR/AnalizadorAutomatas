@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Dictionary;
 import java.util.HashMap;
+
 class lexer implements lexerConstants {
-   // public static ArrayList<Identificador> Identificadores = new ArrayList<>();
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
    static int pos=0;
    static String modificadorTemp, tipoDatoTemp, nombreTemp, valorTemp;
@@ -79,7 +79,7 @@ class lexer implements lexerConstants {
           temp.setModificador(modificador.image);
           temp.setValor("No aplica");
           tablaSimbolos.put(pos,temp);
-           pos++;
+          pos++;
     } catch (ParseException e) {
                 System.out.println("Error de Sintaxis");
                 System.out.println(e.toString());
@@ -107,8 +107,12 @@ class lexer implements lexerConstants {
           tempgeneral.setTipoDato(tipoDatoTemp);
           tempgeneral.setNombre(nombreTemp);
           tempgeneral.setValor(valorTemp);
+           Validacion val=new Validacion();
+           val.checarSiExisteToken(tempgeneral);
+           val.checarTipoDato(tempgeneral);
            tablaSimbolos.put(pos,tempgeneral);
            pos++;
+
           //System.out.println("*************");
 
   }
@@ -309,19 +313,8 @@ class lexer implements lexerConstants {
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_11() {
-    if (jj_scan_token(IF)) return true;
-    if (jj_3R_15()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_14() {
     if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
     return false;
   }
 
@@ -358,13 +351,6 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_10() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_13()) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_17() {
     Token xsp;
     xsp = jj_scanpos;
@@ -375,10 +361,22 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
   static private boolean jj_3R_12() {
     if (jj_scan_token(WHILE)) return true;
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
     if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_10() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
@@ -390,6 +388,12 @@ class lexer implements lexerConstants {
   static private boolean jj_3R_15() {
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
     if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_11() {
+    if (jj_scan_token(IF)) return true;
+    if (jj_3R_15()) return true;
     return false;
   }
 

@@ -1,14 +1,16 @@
 public class funcion {
 	
-	public int var_uno = 5;
-	public int var_dos = 5;
-	
+	public string var_uno = 1;
+	public int var_dos = 5.67;
+	public string tamal= "Hola";
+	private boolean cert=true;
 	if(var_uno>5){
 		private int var_tres=3;
 		}
 	while(var_uno>1){
 		if (var_dos>2){
-		}}
-		
+		}else{
+		}
+		}
 			public int var_cuatro=4;
 }
