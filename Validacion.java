@@ -123,11 +123,11 @@ public class Validacion {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
 				System.out.println("****************************************************************************************************");
 				if(esEntero(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("int")) {
-					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" comparacion valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else if(esDoble(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("double")){
-					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" comparacion valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
-					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" comparacion valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
 					System.out.println("Linea: "+linea+" error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 
@@ -157,14 +157,13 @@ public class Validacion {
 				System.out.println("****************************************************************************************************");
 				
 				if(esEntero(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("int")) {
-					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" comparacion valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else if(esDoble(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("double")){
-					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" comparacion valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
-					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" comparacion valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
 					System.out.println("Linea: "+linea+" error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
-					System.out.println("****************************************************************************************************");
 				}
 				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 				System.out.println("****************************************************************************************************");
@@ -261,7 +260,7 @@ public class Validacion {
 				}
 			}else {
 				System.out.println("****************************************************************************************************");
-				System.out.println("Linea: "+linea+" IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un Boolean debes utilizar: "+"true, false");
+				System.out.println("Linea: "+linea+" IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que intentaste asignar un valor NO BOOLEANO, debes utilizar: "+"true, false");
 			}
 		}
 
@@ -279,13 +278,13 @@ public class Validacion {
 				checarTipoDatoenAsignacion(temp1, valor, identificador, linea);
 				if(esBooleano(valor)==true && temp1.equals("boolean")) {
 					System.out.println("****************************************************************************************************");
-					System.out.println("Asignación booleana correcta en: "+identificador);
+					System.out.println("Linea: "+linea+"  asignación booleana correcta en: "+identificador);
 				}else if(esEntero(valor)==true && temp1.equals("int")){
 					System.out.println("****************************************************************************************************");
-					System.out.println("Asignación int correcta en: "+identificador);
+					System.out.println("Linea: "+linea+"  asignación int correcta en: "+identificador);
 				}else if(esDoble(valor)==true && temp1.equals("double")){
 					System.out.println("****************************************************************************************************");
-					System.out.println("Asignación double correcta en: "+identificador);
+					System.out.println("Linea: "+linea+"  asignación double correcta en: "+identificador);
 				}
 			}
 
