@@ -3,12 +3,13 @@ public class alumno1 {
 	private int edad=23;
 	private int edadnovia=17;
 	public string escuela= "Instituto Tecnologico de Culiacan";
-	private boolean aprobado=false;
-	public boolean guapo=true;
+	private boolean aprobado=true;
+	public boolean guapo=false;
 	public int nodecontrol=15171533;
 	public int calificacion=10;
-	if(1>2){
-	escuela="FCA UAS";
+	if(10>25){
+	escuela="Frijol";
+	
 	}
 	while(10>2){
 		if (1>0.5){

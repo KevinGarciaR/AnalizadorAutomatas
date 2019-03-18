@@ -6,7 +6,7 @@ public class Validacion {
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(variable.getNombre())) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("Error: La variable "+variable.getNombre()+" ya habia sido declarada con un tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+				System.out.println("Linea: "+variable.getPos()+" Error: La variable "+variable.getNombre()+" ya habia sido declarada con un tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 			}
 		}	
 
@@ -20,7 +20,7 @@ public class Validacion {
 				Integer.parseInt(valor);
 			} catch (Exception e) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("Error en el Identificador "+variable.getNombre()+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
+				System.out.println("Linea: "+variable.getPos()+" error en el Identificador "+variable.getNombre()+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
 			}
 		}
 		if(tipoDato.equals("double")) {
@@ -28,7 +28,7 @@ public class Validacion {
 				Double.parseDouble(valor);
 			} catch (Exception e) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("Error en el Identificador "+variable.getNombre()+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
+				System.out.println("Linea: "+variable.getPos()+" error en el Identificador "+variable.getNombre()+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
 
 			}
 		}
@@ -38,10 +38,10 @@ public class Validacion {
 					// System.out.println("String valido");
 				}else {
 					System.out.println("****************************************************************************************************");
-					System.out.println("Error en el Identificador "+variable.getNombre()+" puesto que este no es un string debes utilizar comillas dobles: "+"\"Cadena de Ejemplo\"");
+					System.out.println("Linea: "+variable.getPos()+" error en el Identificador "+variable.getNombre()+" puesto que este no es un string debes utilizar comillas dobles: "+"\"Cadena de Ejemplo\"");
 				}
 			} catch (Exception e) {
-				System.out.println("Error: "+e.getMessage());
+				System.out.println("Error en la linea "+variable.getPos()+" de tipo: "+e.getMessage());
 			}
 
 		}
@@ -51,13 +51,13 @@ public class Validacion {
 				//System.out.println("Booleano correcto");
 			}else {
 				System.out.println("****************************************************************************************************");
-				System.out.println("Error en el Identificador "+variable.getNombre()+" puesto que este no es un Boolean debes utilizar: "+"true, false");
+				System.out.println("Linea: "+variable.getPos()+" error en el Identificador "+variable.getNombre()+" puesto que este no es un Boolean debes utilizar: "+"true, false");
 			}
 		}
 
 	}
 
-	static public void checarComparacionValores(String a, String b) {
+	static public void checarComparacionValores(String a, String b, int linea) {
 		try {
 			if(!a.isEmpty() && !b.isEmpty()) {
 				try {
@@ -66,14 +66,14 @@ public class Validacion {
 					}else if(esDoble(a)==true && esDoble(b)==true) {
 						//System.out.println("Los dos son Double");
 					}else {
-						System.out.println("Error en tipo de dato");
+						System.out.println("Linea: "+linea+" error en tipo de dato");
 					}
 				} catch (Exception e) {
-					System.out.println("Error"+e.getMessage());
+					System.out.println("Linea: "+linea+ "error"+e.getMessage());
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error"+e.getMessage());
+			System.out.println("Linea: "+linea+" error"+e.getMessage());
 		}
 	}
 
@@ -105,7 +105,7 @@ public class Validacion {
 	}
 
 
-	public static void obtenerDatoComparacion(String a, String b) {
+	public static void obtenerDatoComparacion(String a, String b, int linea) {
 		//System.out.println(a);
 		//System.out.println(b);
 
@@ -116,13 +116,12 @@ public class Validacion {
 			}
 		}
 		if(temp1.isEmpty()) {
-			System.out.println("Error: la variable "+a+" no esta declarada");
+			System.out.println("Linea: "+linea+" error: la variable "+a+" no esta declarada");
 			System.out.println("****************************************************************************************************");
 		}
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 				if(esEntero(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("int")) {
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else if(esDoble(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("double")){
@@ -130,15 +129,17 @@ public class Validacion {
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
-					System.out.println("Error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 
-					System.out.println("****************************************************************************************************");
+					
 				}
+				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+				System.out.println("****************************************************************************************************");
 			}
 		}
 	}
 
-	public static void obtenerDatoComparacion2(String a, String b) {
+	public static void obtenerDatoComparacion2(String a, String b,int linea) {
 		//System.out.println(a);
 		//System.out.println(b);
 		String temp1="";
@@ -148,13 +149,13 @@ public class Validacion {
 			}
 		}
 		if(temp1.isEmpty()) {
-			System.out.println("Error: la variable "+a+" no esta declarada");
+			System.out.println("Linea: "+linea+" error: la variable "+a+" no esta declarada");
 			System.out.println("****************************************************************************************************");
 		}
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+				
 				if(esEntero(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("int")) {
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else if(esDoble(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("double")){
@@ -162,16 +163,17 @@ public class Validacion {
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
-					System.out.println("Error: Comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Linea: "+linea+" error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 					System.out.println("****************************************************************************************************");
 				}
-
+				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+				System.out.println("****************************************************************************************************");
 			}
 		}	
 
 	}
 
-	public static void obtenerDatoComparacion3(String a, String b) {
+	public static void obtenerDatoComparacion3(String a, String b, int linea) {
 		String temp1="";
 		String temp2="";
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
@@ -185,16 +187,16 @@ public class Validacion {
 			}
 		}
 		if(temp1.isEmpty()) {
-			System.out.println("Error: la variable "+a+" no esta declarada");
+			System.out.println("Linea: "+linea+" error: la variable "+a+" no esta declarada");
 			System.out.println("****************************************************************************************************");
 		}
 		if(temp2.isEmpty()) {
-			System.out.println("Error: la variable "+b+" no esta declarada");
+			System.out.println("Linea: "+linea+" error: la variable "+b+" no esta declarada");
 			System.out.println("****************************************************************************************************");
 		}
 		if(!temp1.isEmpty() && !temp2.isEmpty() && !temp1.equals(temp2)) {
 			System.out.println("****************************************************************************************************");
-			System.out.println("Error: las variables: "+a+" y "+b+" no son del mismo tipo");
+			System.out.println("Linea: "+linea+" error: las variables: "+a+" y "+b+" no son del mismo tipo");
 			System.out.println("La variable: "+a+" es de tipo: "+temp1);
 			System.out.println("La variable: "+b+" es de tipo: "+temp2);
 			System.out.println("****************************************************************************************************");
@@ -202,7 +204,7 @@ public class Validacion {
 	}
 
 
-	static public void checarTipoDatoenAsignacion(String tipoDato, String valor, String identificador) {
+	static public void checarTipoDatoenAsignacion(String tipoDato, String valor, String identificador, int linea) {
 		if(tipoDato.equals("int")){
 			try {
 				Integer.parseInt(valor);
@@ -213,7 +215,7 @@ public class Validacion {
 				}
 			} catch (Exception e) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+tipoDato);
+				System.out.println("Linea: "+linea+" IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+tipoDato);
 			}
 		}
 		if(tipoDato.equals("double")) {
@@ -226,7 +228,7 @@ public class Validacion {
 				}
 			} catch (Exception e) {
 				System.out.println("****************************************************************************************************");
-				System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+tipoDato);
+				System.out.println("Linea: "+linea+" IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+tipoDato);
 
 			}
 		}
@@ -241,10 +243,10 @@ public class Validacion {
 					}
 				}else {
 					System.out.println("****************************************************************************************************");
-					System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un string debes utilizar comillas dobles: "+"\"Cadena de Ejemplo\"");
+					System.out.println("Linea: "+linea+" IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un string debes utilizar comillas dobles: "+"\"Cadena de Ejemplo\"");
 				}
 			} catch (Exception e) {
-				System.out.println("Error: "+e.getMessage());
+				System.out.println("Linea: "+linea+" error: "+e.getMessage());
 			}
 
 		}
@@ -259,13 +261,13 @@ public class Validacion {
 				}
 			}else {
 				System.out.println("****************************************************************************************************");
-				System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un Boolean debes utilizar: "+"true, false");
+				System.out.println("Linea: "+linea+" IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un Boolean debes utilizar: "+"true, false");
 			}
 		}
 
 	}
 
-	public static void asignarvariabledentro(String identificador, String valor) {
+	public static void asignarvariabledentro(String identificador, String valor, int linea) {
 		//System.out.println(identificador);
 		//System.out.println(valor);
 		String temp1;
@@ -274,7 +276,7 @@ public class Validacion {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(identificador)) {
 				bandera=true;
 				temp1=lexer.tablaSimbolos.get(j).getTipoDato();
-				checarTipoDatoenAsignacion(temp1, valor, identificador);
+				checarTipoDatoenAsignacion(temp1, valor, identificador, linea);
 				if(esBooleano(valor)==true && temp1.equals("boolean")) {
 					System.out.println("****************************************************************************************************");
 					System.out.println("Asignación booleana correcta en: "+identificador);
@@ -290,7 +292,7 @@ public class Validacion {
 		}
 		if(bandera==false) {
 			System.out.println("****************************************************************************************************");
-			System.out.println("Error: la variable: "+identificador+" no se encuentra declarada y no se puede asignar");
+			System.out.println("Linea: "+linea+" error: la variable: "+identificador+" no se encuentra declarada y no se puede asignar");
 		}
 	}
 }

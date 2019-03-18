@@ -26,11 +26,11 @@ class lexer
 			System.out.println("La cadena fue aceptada");
 			System.out.println("Numero de Tokens:"+ tablaSimbolos.size());
 			System.out.println("****************************************************************************************************");
-	        System.out.println("Impresion de HashTable FINAL:");
+	        System.out.println("Impresion de HashMap FINAL:");
 	        System.out.println("");
 			//Impresion Clase
 			int posclase=tablaSimbolos.size()-1;
-		System.out.println("Pos: "+posclase+" Nombre: "+tablaSimbolos.get(posclase).getNombre()+
+		System.out.println("Linea: "+tablaSimbolos.get(posclase).getPos()+" Nombre: "+tablaSimbolos.get(posclase).getNombre()+
                         			", Tipo: "+tablaSimbolos.get(posclase).getTipo()+
                         			", Uso: "+tablaSimbolos.get(posclase).getUso()+
                         			", TipoDato: "+tablaSimbolos.get(posclase).getTipoDato()+
@@ -38,7 +38,7 @@ class lexer
                         			", Valor: "+tablaSimbolos.get(posclase).getValor());
               //Impresion de los demas Tokens
 			  for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
-                        	System.out.println("Pos: "+tablaSimbolos.get(i).getPos()+" Nombre: "+tablaSimbolos.get(i).getNombre()+
+                        	System.out.println("Linea: "+tablaSimbolos.get(i).getPos()+" Nombre: "+tablaSimbolos.get(i).getNombre()+
                         			", Tipo: "+tablaSimbolos.get(i).getTipo()+
                         			", Uso: "+tablaSimbolos.get(i).getUso()+
                         			", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
@@ -125,7 +125,7 @@ void programa():{}{
 	  temp.setNombre(nombre.image);
 	  temp.setModificador(modificador.image);
 	  temp.setValor("No aplica");
-	  temp.setPos(nombre.beginLine);
+	  temp.setPos(modificador.beginLine);
 	  tablaSimbolos.put(pos,temp);
 	  pos++;
 	}  
@@ -205,7 +205,7 @@ void modificacion_variable():{}{
 	  String identificadorvar=identificador.image;
 	  String valorvar=valor.image;
 	Validacion val=new Validacion();
-	val.asignarvariabledentro(identificadorvar,valorvar);
+	val.asignarvariabledentro(identificadorvar,valorvar, identificador.beginLine);
 	
 }
 }	
@@ -254,25 +254,25 @@ void testing_expression():{}{
 	 String a=valor1.image;
      String b=valor2.image;
      tempgeneral.setPos(valor1.beginLine);
-     val.checarComparacionValores(a,b);
+     val.checarComparacionValores(a,b, valor1.beginLine);
 	 }
 	 if(nombrecomparacion1!=null && nombrecomparacion2==null) {
 	 String valtemp=nombrecomparacion1.image;
 	 String valtemp2=valor2.image;
 	 tempgeneral.setPos(nombrecomparacion1.beginLine);
-     val.obtenerDatoComparacion(valtemp,valtemp2);
+     val.obtenerDatoComparacion(valtemp,valtemp2, nombrecomparacion1.beginLine);
 	 }
 	 if(nombrecomparacion1==null && nombrecomparacion2!=null) {
 	  String valtemp=nombrecomparacion2.image;
 	 String valtemp2=valor1.image;
 	 tempgeneral.setPos(nombrecomparacion2.beginLine);
-	 val.obtenerDatoComparacion2(valtemp,valtemp2);
+	 val.obtenerDatoComparacion2(valtemp,valtemp2,nombrecomparacion2.beginLine);
 	 }
      if(nombrecomparacion1!=null && nombrecomparacion2!=null) {
 	  String valtemp=nombrecomparacion1.image;
 	 String valtemp2=nombrecomparacion2.image;
 	 tempgeneral.setPos(nombrecomparacion1.beginLine);
-	 val.obtenerDatoComparacion3(valtemp,valtemp2);
+	 val.obtenerDatoComparacion3(valtemp,valtemp2, nombrecomparacion1.beginLine);
 	 }
      
 	 if(nombrecomparacion1!=null) {
