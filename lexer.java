@@ -35,7 +35,7 @@ class lexer implements lexerConstants {
                                                 ", Valor: "+tablaSimbolos.get(posclase).getValor());
               //Impresion de los demas Tokens
                           for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
-                                System.out.println("Pos: "+i+" Nombre: "+tablaSimbolos.get(i).getNombre()+
+                                System.out.println("Pos: "+tablaSimbolos.get(i).getPos()+" Nombre: "+tablaSimbolos.get(i).getNombre()+
                                                 ", Tipo: "+tablaSimbolos.get(i).getTipo()+
                                                 ", Uso: "+tablaSimbolos.get(i).getUso()+
                                                 ", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
@@ -71,13 +71,14 @@ class lexer implements lexerConstants {
         sentencia();
       }
       jj_consume_token(LLAVEDERECHA);
-         Identificador temp=new Identificador("","","","","","");
+         Identificador temp=new Identificador("","","","","","",0);
           temp.setTipo("Clase");
       temp.setUso("Declaracion");
       temp.setTipoDato("No Aplica");
           temp.setNombre(nombre.image);
           temp.setModificador(modificador.image);
           temp.setValor("No aplica");
+          temp.setPos(nombre.beginLine);
           tablaSimbolos.put(pos,temp);
           pos++;
     } catch (ParseException e) {
@@ -96,11 +97,12 @@ class lexer implements lexerConstants {
     tipoDato = type();
     variable_declarator();
     jj_consume_token(PUNTOYCOMA);
-          Identificador tempgeneral=new Identificador("","","","","","");
+          Identificador tempgeneral=new Identificador("","","","","","",0);
           //System.out.print(tipo.image+ " ");
           //System.out.print(modificador.image+ " ");
            tipoDatoTemp=tipoDato.image;
           modificadorTemp=modificador.image;
+          tempgeneral.setPos(modificador.beginLine);
           tempgeneral.setTipo("Variable");
           tempgeneral.setUso("Declaracion");
           tempgeneral.setModificador(modificadorTemp);
@@ -287,6 +289,9 @@ class lexer implements lexerConstants {
     case DOUBLE_LITERAL:
       valor1 = jj_consume_token(DOUBLE_LITERAL);
       break;
+    case BOOLEAN_LITERAL:
+      valor1 = jj_consume_token(BOOLEAN_LITERAL);
+      break;
     default:
       jj_la1[7] = jj_gen;
       jj_consume_token(-1);
@@ -303,32 +308,39 @@ class lexer implements lexerConstants {
     case DOUBLE_LITERAL:
       valor2 = jj_consume_token(DOUBLE_LITERAL);
       break;
+    case BOOLEAN_LITERAL:
+      valor2 = jj_consume_token(BOOLEAN_LITERAL);
+      break;
     default:
       jj_la1[8] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-         Identificador tempgeneral=new Identificador("","","","","","");
+         Identificador tempgeneral=new Identificador("","","","","","",0);
 
      Validacion val=new Validacion();
          if(nombrecomparacion1==null && nombrecomparacion2==null) {
          String a=valor1.image;
      String b=valor2.image;
+     tempgeneral.setPos(valor1.beginLine);
      val.checarComparacionValores(a,b);
          }
          if(nombrecomparacion1!=null && nombrecomparacion2==null) {
          String valtemp=nombrecomparacion1.image;
          String valtemp2=valor2.image;
+         tempgeneral.setPos(nombrecomparacion1.beginLine);
      val.obtenerDatoComparacion(valtemp,valtemp2);
          }
          if(nombrecomparacion1==null && nombrecomparacion2!=null) {
           String valtemp=nombrecomparacion2.image;
          String valtemp2=valor1.image;
+         tempgeneral.setPos(nombrecomparacion2.beginLine);
          val.obtenerDatoComparacion2(valtemp,valtemp2);
          }
      if(nombrecomparacion1!=null && nombrecomparacion2!=null) {
           String valtemp=nombrecomparacion1.image;
          String valtemp2=nombrecomparacion2.image;
+         tempgeneral.setPos(nombrecomparacion1.beginLine);
          val.obtenerDatoComparacion3(valtemp,valtemp2);
          }
 
@@ -357,6 +369,63 @@ class lexer implements lexerConstants {
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
+  }
+
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(TIPODATO)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_17() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(22)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(26)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(24)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(23)) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_12() {
+    if (jj_scan_token(WHILE)) return true;
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_10() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_9() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_11() {
+    if (jj_scan_token(IF)) return true;
+    if (jj_3R_15()) return true;
+    return false;
   }
 
   static private boolean jj_3R_14() {
@@ -392,60 +461,6 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(TIPODATO)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_17() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(22)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(26)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(24)) return true;
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_12() {
-    if (jj_scan_token(WHILE)) return true;
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_10() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_13()) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_9() {
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_11() {
-    if (jj_scan_token(IF)) return true;
-    if (jj_3R_15()) return true;
-    return false;
-  }
-
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
   static public lexerTokenManager token_source;
@@ -464,7 +479,7 @@ class lexer implements lexerConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x3c00000,0x920,0x400,0x200,0x920,0x920,0x920,0x5400000,0x5400000,};
+      jj_la1_0 = new int[] {0x3c00000,0x920,0x400,0x200,0x920,0x920,0x920,0x5c00000,0x5c00000,};
    }
   static final private JJCalls[] jj_2_rtns = new JJCalls[1];
   static private boolean jj_rescan = false;

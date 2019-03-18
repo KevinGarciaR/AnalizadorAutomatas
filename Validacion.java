@@ -103,6 +103,17 @@ public class Validacion {
 	public static void obtenerDatoComparacion(String a, String b) {
 		//System.out.println(a);
 		//System.out.println(b);
+		
+		String temp1="";
+		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
+				temp1=lexer.tablaSimbolos.get(j).getTipoDato();
+			}
+		}
+		if(temp1.isEmpty()) {
+			System.out.println("Error: la variable "+a+" no esta declarada");
+			System.out.println("****************************************************************************************************");
+		}
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
 				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
@@ -113,15 +124,26 @@ public class Validacion {
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
-					System.out.println("Comparacion Invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("****************************************************************************************************");
 				}
 			}
-			}
+		}
 	}
 
 	public static void obtenerDatoComparacion2(String a, String b) {
 		//System.out.println(a);
 		//System.out.println(b);
+		String temp1="";
+		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
+				temp1=lexer.tablaSimbolos.get(j).getTipoDato();
+			}
+		}
+		if(temp1.isEmpty()) {
+			System.out.println("Error: la variable "+a+" no esta declarada");
+			System.out.println("****************************************************************************************************");
+		}
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
 				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
@@ -132,7 +154,8 @@ public class Validacion {
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
-					System.out.println("Comparacion Invalida: "+a+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Error: Comparacion invalida: "+a+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("****************************************************************************************************");
 				}
 			}	}
 	}
@@ -150,7 +173,15 @@ public class Validacion {
 				temp2=lexer.tablaSimbolos.get(j).getTipoDato();
 			}
 		}
-		if(!temp1.equals(temp2)) {
+		if(temp1.isEmpty()) {
+			System.out.println("Error: la variable "+a+" no esta declarada");
+			System.out.println("****************************************************************************************************");
+		}
+		if(temp2.isEmpty()) {
+			System.out.println("Error: la variable "+b+" no esta declarada");
+			System.out.println("****************************************************************************************************");
+		}
+		if(!temp1.isEmpty() && !temp2.isEmpty() && !temp1.equals(temp2)) {
 			System.out.println("****************************************************************************************************");
 			System.out.println("Error: las variables: "+a+" y "+b+" no son del mismo tipo");
 			System.out.println("La variable: "+a+" es de tipo: "+temp1);

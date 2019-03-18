@@ -36,7 +36,7 @@ class lexer
                         			", Valor: "+tablaSimbolos.get(posclase).getValor());
               //Impresion de los demas Tokens
 			  for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
-                        	System.out.println("Pos: "+i+" Nombre: "+tablaSimbolos.get(i).getNombre()+
+                        	System.out.println("Pos: "+tablaSimbolos.get(i).getPos()+" Nombre: "+tablaSimbolos.get(i).getNombre()+
                         			", Tipo: "+tablaSimbolos.get(i).getTipo()+
                         			", Uso: "+tablaSimbolos.get(i).getUso()+
                         			", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
@@ -116,13 +116,14 @@ void programa():{}{
 	try{
 	modificador=<MODIFICADOR> <CLASS> nombre=<IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
 	{
-	 Identificador temp=new Identificador("","","","","","");
+	 Identificador temp=new Identificador("","","","","","",0);
 	  temp.setTipo("Clase");
       temp.setUso("Declaracion");
       temp.setTipoDato("No Aplica");
 	  temp.setNombre(nombre.image);
 	  temp.setModificador(modificador.image);
 	  temp.setValor("No aplica");
+	  temp.setPos(nombre.beginLine);
 	  tablaSimbolos.put(pos,temp);
 	  pos++;
 	}  
@@ -144,11 +145,12 @@ void variable_declaration():{
   }{
 	modificador=<MODIFICADOR> tipoDato=type() variable_declarator()<PUNTOYCOMA>
 	{
-	  Identificador tempgeneral=new Identificador("","","","","","");
+	  Identificador tempgeneral=new Identificador("","","","","","",0);
 	  //System.out.print(tipo.image+ " ");
 	  //System.out.print(modificador.image+ " ");
 	   tipoDatoTemp=tipoDato.image;
 	  modificadorTemp=modificador.image;
+	  tempgeneral.setPos(modificador.beginLine);
 	  tempgeneral.setTipo("Variable");
 	  tempgeneral.setUso("Declaracion");
 	  tempgeneral.setModificador(modificadorTemp);
@@ -227,29 +229,33 @@ void testing_expression():{}{
    Token valor1=null;
    Token valor2=null;
   }
-	(valor1=<INTEGER_LITERAL> | nombrecomparacion1=<IDENTIFICADOR> | valor1=<DOUBLE_LITERAL>) expresion=<EXPRESION> (valor2=<INTEGER_LITERAL> | nombrecomparacion2=<IDENTIFICADOR> |valor2= <DOUBLE_LITERAL>)
+	(valor1=<INTEGER_LITERAL> | nombrecomparacion1=<IDENTIFICADOR> | valor1=<DOUBLE_LITERAL> | valor1=<BOOLEAN_LITERAL>) expresion=<EXPRESION> (valor2=<INTEGER_LITERAL> | nombrecomparacion2=<IDENTIFICADOR> |valor2= <DOUBLE_LITERAL>| valor2=<BOOLEAN_LITERAL>)
 	{
-	 Identificador tempgeneral=new Identificador("","","","","","");
-	
+	 Identificador tempgeneral=new Identificador("","","","","","",0);
+	  
      Validacion val=new Validacion();
 	 if(nombrecomparacion1==null && nombrecomparacion2==null) {
 	 String a=valor1.image;
      String b=valor2.image;
+     tempgeneral.setPos(valor1.beginLine);
      val.checarComparacionValores(a,b);
 	 }
 	 if(nombrecomparacion1!=null && nombrecomparacion2==null) {
 	 String valtemp=nombrecomparacion1.image;
 	 String valtemp2=valor2.image;
+	 tempgeneral.setPos(nombrecomparacion1.beginLine);
      val.obtenerDatoComparacion(valtemp,valtemp2);
 	 }
 	 if(nombrecomparacion1==null && nombrecomparacion2!=null) {
 	  String valtemp=nombrecomparacion2.image;
 	 String valtemp2=valor1.image;
+	 tempgeneral.setPos(nombrecomparacion2.beginLine);
 	 val.obtenerDatoComparacion2(valtemp,valtemp2);
 	 }
      if(nombrecomparacion1!=null && nombrecomparacion2!=null) {
 	  String valtemp=nombrecomparacion1.image;
 	 String valtemp2=nombrecomparacion2.image;
+	 tempgeneral.setPos(nombrecomparacion1.beginLine);
 	 val.obtenerDatoComparacion3(valtemp,valtemp2);
 	 }
      

@@ -8,8 +8,9 @@ public class Identificador {
 	String tipo;
 	String uso;
 	String modificador;
+	int pos;
 
-	public Identificador(String nombre, String valor, String tipoDato, String tipo, String uso, String modificador) {
+	public Identificador(String nombre, String valor, String tipoDato, String tipo, String uso, String modificador, int pos) {
 		super();
 		this.nombre = nombre;
 		this.valor = valor;
@@ -17,9 +18,18 @@ public class Identificador {
 		this.tipo = tipo;
 		this.uso = uso;
 		this.modificador = modificador;
+		this.pos = pos;
 	}
 
-	
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

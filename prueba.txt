@@ -1,19 +1,18 @@
 public class alumno {
-	
 	public string nombre="Kevin Jesus Garcia Rios";
-	private int edad=23;
-	private int edadnovia=17;
-	public string escuela= "Instituto Tecnologico de Culiacan";
-	private boolean aprobado=false;
-	public boolean cerote=true;
-	public int nodecontrol=15171533;
-	public int calificacion=100;
-	if(edadnovia>edad){
+		private int edad=23;
+		private int edadnovia=17;
+		public string escuela= "Instituto Tecnologico de Culiacan";
+		private boolean aprobado=false;
+		public boolean guapo=true;
+		public int nodecontrol=15171533;
+		public int calificacion=100;
+		if(guapo==aprobado){
 		}
-	while(escuela>2){
-		if (1>2){
-		}else{
-		}
-		}
+		while(escuela>2){
+			if (1>2){
+			}else{
+			}
+						}
 			public int var_cuatro=4;
 }
