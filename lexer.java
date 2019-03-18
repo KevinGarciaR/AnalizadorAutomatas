@@ -27,7 +27,7 @@ class lexer implements lexerConstants {
                         System.out.println("****************************************************************************************************");
                         //Impresion Clase
                         int posclase=tablaSimbolos.size()-1;
-                System.out.println("Nombre: "+tablaSimbolos.get(posclase).getNombre()+
+                System.out.println("Pos: "+posclase+" Nombre: "+tablaSimbolos.get(posclase).getNombre()+
                                                 ", Tipo: "+tablaSimbolos.get(posclase).getTipo()+
                                                 ", Uso: "+tablaSimbolos.get(posclase).getUso()+
                                                 ", TipoDato: "+tablaSimbolos.get(posclase).getTipoDato()+
@@ -35,7 +35,7 @@ class lexer implements lexerConstants {
                                                 ", Valor: "+tablaSimbolos.get(posclase).getValor());
               //Impresion de los demas Tokens
                           for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
-                                System.out.println("Nombre: "+tablaSimbolos.get(i).getNombre()+
+                                System.out.println("Pos: "+i+" Nombre: "+tablaSimbolos.get(i).getNombre()+
                                                 ", Tipo: "+tablaSimbolos.get(i).getTipo()+
                                                 ", Uso: "+tablaSimbolos.get(i).getUso()+
                                                 ", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
@@ -272,26 +272,36 @@ class lexer implements lexerConstants {
   }
 
   static final public void testing_expression() throws ParseException {
-   Token nombrecomparacion=null;
+   Token nombrecomparacion1=null;
+   Token nombrecomparacion2=null;
+   Token expresion;
+   Token valor1=null;
+   Token valor2=null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER_LITERAL:
-      jj_consume_token(INTEGER_LITERAL);
+      valor1 = jj_consume_token(INTEGER_LITERAL);
       break;
     case IDENTIFICADOR:
-      nombrecomparacion = jj_consume_token(IDENTIFICADOR);
+      nombrecomparacion1 = jj_consume_token(IDENTIFICADOR);
+      break;
+    case DOUBLE_LITERAL:
+      valor1 = jj_consume_token(DOUBLE_LITERAL);
       break;
     default:
       jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    jj_consume_token(EXPRESION);
+    expresion = jj_consume_token(EXPRESION);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER_LITERAL:
-      jj_consume_token(INTEGER_LITERAL);
+      valor2 = jj_consume_token(INTEGER_LITERAL);
       break;
     case IDENTIFICADOR:
-      nombrecomparacion = jj_consume_token(IDENTIFICADOR);
+      nombrecomparacion2 = jj_consume_token(IDENTIFICADOR);
+      break;
+    case DOUBLE_LITERAL:
+      valor2 = jj_consume_token(DOUBLE_LITERAL);
       break;
     default:
       jj_la1[8] = jj_gen;
@@ -299,9 +309,45 @@ class lexer implements lexerConstants {
       throw new ParseException();
     }
          Identificador tempgeneral=new Identificador("","","","","","");
-         tempgeneral.setNombre(nombrecomparacion.image);
-         tempgeneral.setTipo("Variable");
+
+     Validacion val=new Validacion();
+         if(nombrecomparacion1==null && nombrecomparacion2==null) {
+         String a=valor1.image;
+     String b=valor2.image;
+     val.checarComparacionValores(a,b);
+         }
+         if(nombrecomparacion1!=null && nombrecomparacion2==null) {
+         String valtemp=nombrecomparacion1.image;
+         String valtemp2=valor2.image;
+     val.obtenerDatoComparacion(valtemp,valtemp2);
+         }
+         if(nombrecomparacion1==null && nombrecomparacion2!=null) {
+          String valtemp=nombrecomparacion2.image;
+         String valtemp2=valor1.image;
+         val.obtenerDatoComparacion2(valtemp,valtemp2);
+         }
+     if(nombrecomparacion1!=null && nombrecomparacion2!=null) {
+          String valtemp=nombrecomparacion1.image;
+         String valtemp2=nombrecomparacion2.image;
+         val.obtenerDatoComparacion3(valtemp,valtemp2);
+         }
+
+         if(nombrecomparacion1!=null) {
+     tempgeneral.setNombre(nombrecomparacion1.image);
+     tempgeneral.setTipo("Variable");
+     tempgeneral.setTipoDato("Comparacion: "+expresion.image+"  ");
+         }else {
+     tempgeneral.setNombre("No hay variables");
+     tempgeneral.setTipoDato("Comparacion: "  +expresion.image+"  ");
+         }
      tempgeneral.setUso("Comparacion");
+
+
+
+     //System.out.println(a);
+
+            //val.checarComparacionValores(a,b);
+
      tablaSimbolos.put(pos,tempgeneral);
          pos++;
   }
@@ -356,7 +402,10 @@ class lexer implements lexerConstants {
     xsp = jj_scanpos;
     if (jj_scan_token(22)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(26)) return true;
+    if (jj_scan_token(26)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(24)) return true;
+    }
     }
     return false;
   }
@@ -415,7 +464,7 @@ class lexer implements lexerConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x3c00000,0x920,0x400,0x200,0x920,0x920,0x920,0x4400000,0x4400000,};
+      jj_la1_0 = new int[] {0x3c00000,0x920,0x400,0x200,0x920,0x920,0x920,0x5400000,0x5400000,};
    }
   static final private JJCalls[] jj_2_rtns = new JJCalls[1];
   static private boolean jj_rescan = false;

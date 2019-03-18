@@ -1,14 +1,17 @@
-public class funcion {
+public class alumno {
 	
-	public string var_uno = 1;
-	public int var_dos = 5.67;
-	public string tamal= "Hola";
-	private boolean cert=true;
-	if(var_uno>5){
-		private int var_tres=3;
+	public string nombre="Kevin Jesus Garcia Rios";
+	private int edad=23;
+	private int edadnovia=17;
+	public string escuela= "Instituto Tecnologico de Culiacan";
+	private boolean aprobado=false;
+	public boolean cerote=true;
+	public int nodecontrol=15171533;
+	public int calificacion=100;
+	if(edadnovia>edad){
 		}
-	while(var_uno>1){
-		if (var_dos>2){
+	while(escuela>2){
+		if (1>2){
 		}else{
 		}
 		}
