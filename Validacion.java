@@ -5,6 +5,7 @@ public class Validacion {
 	static public void checarSiExisteToken(Identificador variable) {
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(variable.getNombre())) {
+				System.out.println("****************************************************************************************************");
 				System.out.println("Error: La variable "+variable.getNombre()+" ya habia sido declarada con un tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 			}
 		}	
@@ -18,6 +19,7 @@ public class Validacion {
 			try {
 				Integer.parseInt(valor);
 			} catch (Exception e) {
+				System.out.println("****************************************************************************************************");
 				System.out.println("Error en el Identificador "+variable.getNombre()+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
 			}
 		}
@@ -25,6 +27,7 @@ public class Validacion {
 			try {
 				Double.parseDouble(valor);
 			} catch (Exception e) {
+				System.out.println("****************************************************************************************************");
 				System.out.println("Error en el Identificador "+variable.getNombre()+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
 
 			}
@@ -34,6 +37,7 @@ public class Validacion {
 				if(valor.startsWith("")&&valor.endsWith("\"")) {
 					// System.out.println("String valido");
 				}else {
+					System.out.println("****************************************************************************************************");
 					System.out.println("Error en el Identificador "+variable.getNombre()+" puesto que este no es un string debes utilizar comillas dobles: "+"\"Cadena de Ejemplo\"");
 				}
 			} catch (Exception e) {
@@ -46,7 +50,8 @@ public class Validacion {
 			if (valor.equals("true") || valor.equals("false")) {
 				//System.out.println("Booleano correcto");
 			}else {
-				System.out.println("El tipo de dato Booleano es incorrecto");
+				System.out.println("****************************************************************************************************");
+				System.out.println("Error en el Identificador "+variable.getNombre()+" puesto que este no es un Boolean debes utilizar: "+"true, false");
 			}
 		}
 
@@ -103,7 +108,7 @@ public class Validacion {
 	public static void obtenerDatoComparacion(String a, String b) {
 		//System.out.println(a);
 		//System.out.println(b);
-		
+
 		String temp1="";
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
@@ -116,6 +121,7 @@ public class Validacion {
 		}
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
+				System.out.println("****************************************************************************************************");
 				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 				if(esEntero(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("int")) {
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
@@ -125,6 +131,7 @@ public class Validacion {
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
 					System.out.println("Error: comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+
 					System.out.println("****************************************************************************************************");
 				}
 			}
@@ -146,6 +153,7 @@ public class Validacion {
 		}
 		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
 			if(lexer.tablaSimbolos.get(j).getNombre().equals(a)) {
+				System.out.println("****************************************************************************************************");
 				System.out.println("La variable "+a+" es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 				if(esEntero(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("int")) {
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
@@ -154,10 +162,13 @@ public class Validacion {
 				}else if(esBooleano(b)==true && lexer.tablaSimbolos.get(j).getTipoDato().equals("boolean")){
 					System.out.println("Comparacion Valida "+lexer.tablaSimbolos.get(j).getTipoDato());
 				}else {
-					System.out.println("Error: Comparacion invalida: "+a+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
+					System.out.println("Error: Comparacion invalida: "+b+" no es de tipo: "+lexer.tablaSimbolos.get(j).getTipoDato());
 					System.out.println("****************************************************************************************************");
 				}
-			}	}
+
+			}
+		}	
+
 	}
 
 	public static void obtenerDatoComparacion3(String a, String b) {
@@ -187,6 +198,99 @@ public class Validacion {
 			System.out.println("La variable: "+a+" es de tipo: "+temp1);
 			System.out.println("La variable: "+b+" es de tipo: "+temp2);
 			System.out.println("****************************************************************************************************");
+		}
+	}
+
+
+	static public void checarTipoDatoenAsignacion(String tipoDato, String valor, String identificador) {
+		if(tipoDato.equals("int")){
+			try {
+				Integer.parseInt(valor);
+				for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+					if(lexer.tablaSimbolos.get(j).getNombre().equals(identificador)) {
+						lexer.tablaSimbolos.get(j).setValor(valor);
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("****************************************************************************************************");
+				System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+tipoDato);
+			}
+		}
+		if(tipoDato.equals("double")) {
+			try {
+				Double.parseDouble(valor);
+				for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+					if(lexer.tablaSimbolos.get(j).getNombre().equals(identificador)) {
+						lexer.tablaSimbolos.get(j).setValor(valor);
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("****************************************************************************************************");
+				System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+tipoDato);
+
+			}
+		}
+		if(tipoDato.equals("string")){
+			try {
+				if(valor.startsWith("")&&valor.endsWith("\"")) {
+					// System.out.println("String valido");
+					for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+						if(lexer.tablaSimbolos.get(j).getNombre().equals(identificador)) {
+							lexer.tablaSimbolos.get(j).setValor(valor);
+						}
+					}
+				}else {
+					System.out.println("****************************************************************************************************");
+					System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un string debes utilizar comillas dobles: "+"\"Cadena de Ejemplo\"");
+				}
+			} catch (Exception e) {
+				System.out.println("Error: "+e.getMessage());
+			}
+
+		}
+
+		if(tipoDato.equals("boolean")) {
+			if (valor.equals("true") || valor.equals("false")) {
+				//System.out.println("Booleano correcto");
+				for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+					if(lexer.tablaSimbolos.get(j).getNombre().equals(identificador)) {
+						lexer.tablaSimbolos.get(j).setValor(valor);
+					}
+				}
+			}else {
+				System.out.println("****************************************************************************************************");
+				System.out.println("IMPOSIBLE DE ASIGNAR: Error en el Identificador "+identificador+" puesto que este no es un Boolean debes utilizar: "+"true, false");
+			}
+		}
+
+	}
+
+	public static void asignarvariabledentro(String identificador, String valor) {
+		//System.out.println(identificador);
+		//System.out.println(valor);
+		String temp1;
+		boolean bandera=false;
+		for (int j = 0; j < lexer.tablaSimbolos.size(); j++) {
+			if(lexer.tablaSimbolos.get(j).getNombre().equals(identificador)) {
+				bandera=true;
+				temp1=lexer.tablaSimbolos.get(j).getTipoDato();
+				checarTipoDatoenAsignacion(temp1, valor, identificador);
+				if(esBooleano(valor)==true && temp1.equals("boolean")) {
+					System.out.println("****************************************************************************************************");
+					System.out.println("Asignación booleana correcta en: "+identificador);
+				}else if(esEntero(valor)==true && temp1.equals("int")){
+					System.out.println("****************************************************************************************************");
+					System.out.println("Asignación int correcta en: "+identificador);
+				}else if(esDoble(valor)==true && temp1.equals("double")){
+					System.out.println("****************************************************************************************************");
+					System.out.println("Asignación double correcta en: "+identificador);
+				}
+			}
+
+		}
+		if(bandera==false) {
+			System.out.println("****************************************************************************************************");
+			System.out.println("Error: la variable: "+identificador+" no se encuentra declarada y no se puede asignar");
 		}
 	}
 }

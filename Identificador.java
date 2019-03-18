@@ -66,5 +66,5 @@ public class Identificador {
 	public void setUso(String uso) {
 		this.uso = uso;
 	}
-	
+
 }

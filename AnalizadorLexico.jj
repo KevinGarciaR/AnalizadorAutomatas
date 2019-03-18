@@ -26,6 +26,8 @@ class lexer
 			System.out.println("La cadena fue aceptada");
 			System.out.println("Numero de Tokens:"+ tablaSimbolos.size());
 			System.out.println("****************************************************************************************************");
+	        System.out.println("Impresion de HashTable FINAL:");
+	        System.out.println("");
 			//Impresion Clase
 			int posclase=tablaSimbolos.size()-1;
 		System.out.println("Pos: "+posclase+" Nombre: "+tablaSimbolos.get(posclase).getNombre()+
@@ -102,7 +104,7 @@ TOKEN:
 /* Identificador */
 TOKEN:
 {
-	< IDENTIFICADOR:(["a"-"z","_"])* >
+	< IDENTIFICADOR:(["a"-"z","_","0"-"9"])* >
 }
 
 /*===== Operadores Logicos  ======*/
@@ -193,9 +195,23 @@ void variable_declarator():{}{
 	}
 }	
 
+void modificacion_variable():{}{
+  {
+  Token identificador;
+  Token valor;
+  }
+	identificador=<IDENTIFICADOR> <ASIGNACION> (valor=<INTEGER_LITERAL> | valor=<BOOLEAN_LITERAL> | valor=<DOUBLE_LITERAL> | valor=<STRING_LITERAL>)<PUNTOYCOMA>
+	{
+	  String identificadorvar=identificador.image;
+	  String valorvar=valor.image;
+	Validacion val=new Validacion();
+	val.asignarvariabledentro(identificadorvar,valorvar);
+	
+}
+}	
 /*Metodos para sentencia*/
 void sentencia():{}{
-	variable_declaration()|if_todo()|while_sentencia()
+	variable_declaration()|if_todo()|while_sentencia()|modificacion_variable()
 }
 
 void if_todo(): { } {
