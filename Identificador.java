@@ -8,9 +8,9 @@ public class Identificador {
 	String tipo;
 	String uso;
 	String modificador;
-	int pos;
-
-	public Identificador(String nombre, String valor, String tipoDato, String tipo, String uso, String modificador, int pos) {
+	String alcance;
+	
+	public Identificador(String nombre, String valor, String tipoDato, String tipo, String uso, String modificador, int pos, String alcance) {
 		super();
 		this.nombre = nombre;
 		this.valor = valor;
@@ -21,6 +21,15 @@ public class Identificador {
 		this.pos = pos;
 	}
 
+	public String getAlcance() {
+		return alcance;
+	}
+
+
+	public void setAlcance(String alcance) {
+		this.alcance = alcance;
+	}
+	int pos;
 
 	public int getPos() {
 		return pos;

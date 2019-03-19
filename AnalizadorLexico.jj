@@ -35,7 +35,9 @@ class lexer
                         			", Uso: "+tablaSimbolos.get(posclase).getUso()+
                         			", TipoDato: "+tablaSimbolos.get(posclase).getTipoDato()+
                         			", Modificador: "+tablaSimbolos.get(posclase).getModificador()+
-                        			", Valor: "+tablaSimbolos.get(posclase).getValor());
+                        			", Valor: "+tablaSimbolos.get(posclase).getValor()+
+                        			", Alcance: "+tablaSimbolos.get(posclase).getAlcance());
+                        			
               //Impresion de los demas Tokens
 			  for ( int i = 0; i < tablaSimbolos.size()-1; i ++){
                         	System.out.println("Linea: "+tablaSimbolos.get(i).getPos()+" Nombre: "+tablaSimbolos.get(i).getNombre()+
@@ -43,7 +45,8 @@ class lexer
                         			", Uso: "+tablaSimbolos.get(i).getUso()+
                         			", TipoDato: "+tablaSimbolos.get(i).getTipoDato()+
                         			", Modificador: "+tablaSimbolos.get(i).getModificador()+
-                        			", Valor: "+tablaSimbolos.get(i).getValor());
+                        			", Valor: "+tablaSimbolos.get(i).getValor()+
+                        			", Alcance: "+tablaSimbolos.get(i).getAlcance());
                         }
 			
 		}
@@ -118,7 +121,7 @@ void programa():{}{
 	try{
 	modificador=<MODIFICADOR> <CLASS> nombre=<IDENTIFICADOR> <LLAVEIZQUIERDA> (LOOKAHEAD(3)sentencia())* <LLAVEDERECHA>
 	{
-	 Identificador temp=new Identificador("","","","","","",0);
+	 Identificador temp=new Identificador("","","","","","",0,"No aplica");
 	  temp.setTipo("Clase");
       temp.setUso("Declaracion");
       temp.setTipoDato("No Aplica");
@@ -147,7 +150,7 @@ void variable_declaration():{
   }{
 	modificador=<MODIFICADOR> tipoDato=type() variable_declarator()<PUNTOYCOMA>
 	{
-	  Identificador tempgeneral=new Identificador("","","","","","",0);
+	  Identificador tempgeneral=new Identificador("","","","","","",0,"");
 	  //System.out.print(tipo.image+ " ");
 	  //System.out.print(modificador.image+ " ");
 	   tipoDatoTemp=tipoDato.image;
@@ -155,6 +158,36 @@ void variable_declaration():{
 	  tempgeneral.setPos(modificador.beginLine);
 	  tempgeneral.setTipo("Variable");
 	  tempgeneral.setUso("Declaracion");
+	  tempgeneral.setModificador(modificadorTemp);
+	  tempgeneral.setTipoDato(tipoDatoTemp);
+	  tempgeneral.setNombre(nombreTemp);
+	  tempgeneral.setValor(valorTemp);
+	  tempgeneral.setAlcance("Global");
+	   Validacion val=new Validacion();
+	   val.checarSiExisteToken(tempgeneral);
+	   val.checarTipoDato(tempgeneral);
+	   tablaSimbolos.put(pos,tempgeneral);
+	   pos++;
+	   
+	  //System.out.println("*************");
+	  }
+	  
+}
+
+void variable_declaration_local():{
+	
+  }{
+	modificador=<MODIFICADOR> tipoDato=type() variable_declarator()<PUNTOYCOMA>
+	{
+	  Identificador tempgeneral=new Identificador("","","","","","",0,"Local");
+	  //System.out.print(tipo.image+ " ");
+	  //System.out.print(modificador.image+ " ");
+	   tipoDatoTemp=tipoDato.image;
+	  modificadorTemp=modificador.image;
+	  tempgeneral.setPos(modificador.beginLine);
+	  tempgeneral.setTipo("Variable");
+	  tempgeneral.setUso("Declaracion");
+	  tempgeneral.setAlcance("Local");
 	  tempgeneral.setModificador(modificadorTemp);
 	  tempgeneral.setTipoDato(tipoDatoTemp);
 	  tempgeneral.setNombre(nombreTemp);
@@ -214,23 +247,27 @@ void sentencia():{}{
 	variable_declaration()|if_todo()|while_sentencia()|modificacion_variable()
 }
 
+void sentencia_local():{}{
+	variable_declaration_local()|if_todo()|while_sentencia()|modificacion_variable()
+}
+
 void if_todo(): { } {
 	<IF>if_sentencia()(else_if_sentencia())* [else_sentencia()]
 }
 
 void if_sentencia():{}{
-	<PARENTESISIZQUIERDO>expression()<PARENTESISDERECHO> <LLAVEIZQUIERDA> (sentencia())* <LLAVEDERECHA>
+	<PARENTESISIZQUIERDO>expression()<PARENTESISDERECHO> <LLAVEIZQUIERDA> (sentencia_local())* <LLAVEDERECHA>
 }
 
 void else_sentencia():{}{
-	<ELSE><LLAVEIZQUIERDA> (sentencia())* <LLAVEDERECHA>
+	<ELSE><LLAVEIZQUIERDA> (sentencia_local())* <LLAVEDERECHA>
 }
 void else_if_sentencia():{}{
 	<ELSEIF>if_sentencia()
 }
 
 void while_sentencia():{}{
-	<WHILE><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO><LLAVEIZQUIERDA>(sentencia())*<LLAVEDERECHA>
+	<WHILE><PARENTESISIZQUIERDO> expression() <PARENTESISDERECHO><LLAVEIZQUIERDA>(sentencia_local())*<LLAVEDERECHA>
 }
 
 void expression():{}{
@@ -247,7 +284,7 @@ void testing_expression():{}{
   }
 	(valor1=<INTEGER_LITERAL> | nombrecomparacion1=<IDENTIFICADOR> | valor1=<DOUBLE_LITERAL> | valor1=<BOOLEAN_LITERAL>) expresion=<EXPRESION> (valor2=<INTEGER_LITERAL> | nombrecomparacion2=<IDENTIFICADOR> |valor2= <DOUBLE_LITERAL>| valor2=<BOOLEAN_LITERAL>)
 	{
-	 Identificador tempgeneral=new Identificador("","","","","","",0);
+	 Identificador tempgeneral=new Identificador("","","","","","",0,"");
 	  
      Validacion val=new Validacion();
 	 if(nombrecomparacion1==null && nombrecomparacion2==null) {
