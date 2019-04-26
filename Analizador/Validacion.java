@@ -17,7 +17,11 @@ public class Validacion {
 		String valor=variable.getValor();
 		if(tipoDato.equals("int")){
 			try {
-				Integer.parseInt(valor);
+				if(valor.contains("(") || valor.contains(")") || valor.contains("+") || valor.contains("-") || valor.contains("*") || valor.contains("/")) {
+					//System.out.println("Evaluando operacion");
+				}else {
+					Integer.parseInt(valor);
+				}				
 			} catch (Exception e) {
 				System.out.println("****************************************************************************************************");
 				System.out.println("Linea: "+variable.getPos()+" error en el Identificador "+variable.getNombre()+",puesto que este valor no es Entero(Int) - Debes utilizar el Tipo de Dato: "+variable.getTipoDato());
@@ -25,7 +29,11 @@ public class Validacion {
 		}
 		if(tipoDato.equals("double")) {
 			try {
-				Double.parseDouble(valor);
+				if(valor.contains("(") || valor.contains(")") || valor.contains("+") || valor.contains("-") || valor.contains("*") || valor.contains("/")) {
+					//System.out.println("Evaluando operacion");
+				}else {
+					Double.parseDouble(valor);
+				}				
 			} catch (Exception e) {
 				System.out.println("****************************************************************************************************");
 				System.out.println("Linea: "+variable.getPos()+" error en el Identificador "+variable.getNombre()+",puesto que este valor no es Double- Debes utilizar el Tipo de Dato: "+variable.getTipoDato());

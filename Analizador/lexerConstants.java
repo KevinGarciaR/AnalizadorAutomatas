@@ -25,35 +25,41 @@ public interface lexerConstants {
   /** RegularExpression Id. */
   int WHILE = 11;
   /** RegularExpression Id. */
-  int PARENTESISIZQUIERDO = 12;
+  int EXPRESION_REGULAR = 12;
   /** RegularExpression Id. */
-  int PARENTESISDERECHO = 13;
+  int PARENTESISIZQUIERDO = 13;
   /** RegularExpression Id. */
-  int LLAVEIZQUIERDA = 14;
+  int PARENTESISDERECHO = 14;
   /** RegularExpression Id. */
-  int LLAVEDERECHA = 15;
+  int LLAVEIZQUIERDA = 15;
   /** RegularExpression Id. */
-  int PUNTOYCOMA = 16;
+  int LLAVEDERECHA = 16;
   /** RegularExpression Id. */
-  int COMILLASDOBLES = 17;
+  int PUNTOYCOMA = 17;
   /** RegularExpression Id. */
-  int ASIGNACION = 18;
+  int COMILLASDOBLES = 18;
   /** RegularExpression Id. */
-  int EXPRESION = 19;
+  int ASIGNACION = 19;
   /** RegularExpression Id. */
-  int MAS = 20;
+  int EXPRESION = 20;
   /** RegularExpression Id. */
-  int MENOS = 21;
+  int MAS = 21;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 22;
+  int MENOS = 22;
   /** RegularExpression Id. */
-  int BOOLEAN_LITERAL = 23;
+  int POR = 23;
   /** RegularExpression Id. */
-  int DOUBLE_LITERAL = 24;
+  int ENTRE = 24;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 25;
+  int INTEGER_LITERAL = 25;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 26;
+  int BOOLEAN_LITERAL = 26;
+  /** RegularExpression Id. */
+  int DOUBLE_LITERAL = 27;
+  /** RegularExpression Id. */
+  int STRING_LITERAL = 28;
+  /** RegularExpression Id. */
+  int IDENTIFICADOR = 29;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -72,6 +78,7 @@ public interface lexerConstants {
     "\"else\"",
     "\"else if\"",
     "\"while\"",
+    "<EXPRESION_REGULAR>",
     "\"(\"",
     "\")\"",
     "\"{\"",
@@ -82,6 +89,8 @@ public interface lexerConstants {
     "<EXPRESION>",
     "\"+\"",
     "\"-\"",
+    "\"*\"",
+    "\"/\"",
     "<INTEGER_LITERAL>",
     "<BOOLEAN_LITERAL>",
     "<DOUBLE_LITERAL>",

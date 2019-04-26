@@ -162,7 +162,8 @@ class lexer implements lexerConstants {
 
   static final public void variable_declarator() throws ParseException {
   Token identificador;
-  Token valor;
+  Token valor=null;
+  Token valorexpresion=null;
     identificador = jj_consume_token(IDENTIFICADOR);
     jj_consume_token(ASIGNACION);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -178,6 +179,9 @@ class lexer implements lexerConstants {
     case STRING_LITERAL:
       valor = jj_consume_token(STRING_LITERAL);
       break;
+    case EXPRESION_REGULAR:
+      valorexpresion = jj_consume_token(EXPRESION_REGULAR);
+      break;
     default:
       jj_la1[0] = jj_gen;
       jj_consume_token(-1);
@@ -186,7 +190,12 @@ class lexer implements lexerConstants {
            //System.out.print(identificador.image + " ");
            //System.out.print(valor.image + " ");
            nombreTemp=identificador.image;
-           valorTemp=valor.image;
+           if(valor==null) {
+           valorTemp=valorexpresion.image;
+           Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+           }else {
+         valorTemp=valor.image;
+           }
   }
 
   static final public void modificacion_variable() throws ParseException {
@@ -462,31 +471,8 @@ class lexer implements lexerConstants {
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_11() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_15()) return true;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_17() {
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
-    if (jj_3R_18()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_9() {
-    if (jj_3R_13()) return true;
+  static private boolean jj_3R_18() {
+    if (jj_3R_19()) return true;
     return false;
   }
 
@@ -495,32 +481,16 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_12() {
-    if (jj_scan_token(IF)) return true;
-    if (jj_3R_17()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_10() {
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_18() {
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_19() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(22)) {
+    if (jj_scan_token(25)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(26)) {
+    if (jj_scan_token(29)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(24)) {
+    if (jj_scan_token(27)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(23)) return true;
+    if (jj_scan_token(26)) return true;
     }
     }
     }
@@ -532,13 +502,13 @@ class lexer implements lexerConstants {
     if (jj_scan_token(ASIGNACION)) return true;
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(22)) {
+    if (jj_scan_token(25)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(23)) {
+    if (jj_scan_token(26)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(24)) {
+    if (jj_scan_token(27)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(25)) return true;
+    if (jj_scan_token(28)) return true;
     }
     }
     }
@@ -578,6 +548,45 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3R_11() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_15()) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_17() {
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_18()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_9() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_12() {
+    if (jj_scan_token(IF)) return true;
+    if (jj_3R_17()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_10() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
   static public lexerTokenManager token_source;
@@ -596,7 +605,7 @@ class lexer implements lexerConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x3c00000,0x3c00000,0x4000920,0x4000920,0x400,0x200,0x4000920,0x4000920,0x4000920,0x5c00000,0x5c00000,};
+      jj_la1_0 = new int[] {0x1e001000,0x1e000000,0x20000920,0x20000920,0x400,0x200,0x20000920,0x20000920,0x20000920,0x2e000000,0x2e000000,};
    }
   static final private JJCalls[] jj_2_rtns = new JJCalls[1];
   static private boolean jj_rescan = false;
@@ -803,7 +812,7 @@ class lexer implements lexerConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[27];
+    boolean[] la1tokens = new boolean[30];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -817,7 +826,7 @@ class lexer implements lexerConstants {
         }
       }
     }
-    for (int i = 0; i < 27; i++) {
+    for (int i = 0; i < 30; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
