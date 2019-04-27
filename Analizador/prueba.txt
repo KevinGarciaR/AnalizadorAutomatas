@@ -9,7 +9,7 @@ public class alumno1 {
 	public int calificacion=10;
 	if(10>4){
 	public int friwe=1000;
-	public int operacion=1-2+1*(2*2*3(2*5)+(2+10)*5);
+	public int operacion=2+3+(4*5)+(2/3);
 	aprobado=false;
 	}
 	while(10>2){

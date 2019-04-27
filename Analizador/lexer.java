@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 class lexer implements lexerConstants {
    public static HashMap<Integer,Identificador> tablaSimbolos = new HashMap<Integer,Identificador>();
@@ -13,6 +14,7 @@ class lexer implements lexerConstants {
    Identificador identificadores;
    static Token modificador;
    static Token tipoDato;
+   static ArrayList<Expresion> listaexpresiones = new ArrayList<Expresion>();
         public static void main(String[] args) throws ParseException, FileNotFoundException
         {
                 try
@@ -46,6 +48,10 @@ class lexer implements lexerConstants {
                                                 ", Modificador: "+tablaSimbolos.get(i).getModificador()+
                                                 ", Valor: "+tablaSimbolos.get(i).getValor()+
                                                 ", Alcance: "+tablaSimbolos.get(i).getAlcance());
+                        }
+                        for ( int i = 0; i < listaexpresiones.size(); i ++){
+                                System.out.println("EXPRESIONES MATEMATICAS INGRESADAS : ");
+                                System.out.println("Identificador: "+listaexpresiones.get(i).getIdentificador()+" Expresion: "+listaexpresiones.get(i).getExpresion());
                         }
 
                 }
@@ -105,7 +111,7 @@ class lexer implements lexerConstants {
           Identificador tempgeneral=new Identificador("","","","","","",0,"");
           //System.out.print(tipo.image+ " ");
           //System.out.print(modificador.image+ " ");
-           tipoDatoTemp=tipoDato.image;
+          tipoDatoTemp=tipoDato.image;
           modificadorTemp=modificador.image;
           tempgeneral.setPos(modificador.beginLine);
           tempgeneral.setTipo("Variable");
@@ -193,6 +199,10 @@ class lexer implements lexerConstants {
            if(valor==null) {
            valorTemp=valorexpresion.image;
            Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+           Expresion exptemp=new Expresion();
+           exptemp.setIdentificador(nombreTemp);
+           exptemp.setExpresion(valorTemp);
+           listaexpresiones.add(exptemp);
            }else {
          valorTemp=valor.image;
            }
@@ -222,8 +232,8 @@ class lexer implements lexerConstants {
       throw new ParseException();
     }
     jj_consume_token(PUNTOYCOMA);
-          String identificadorvar=identificador.image;
-          String valorvar=valor.image;
+        String identificadorvar=identificador.image;
+        String valorvar=valor.image;
         Validacion val=new Validacion();
         val.asignarvariabledentro(identificadorvar,valorvar, identificador.beginLine);
   }
@@ -471,41 +481,9 @@ class lexer implements lexerConstants {
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_13() {
-    if (jj_scan_token(WHILE)) return true;
+  static private boolean jj_3R_17() {
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
     if (jj_3R_18()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_6() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_7()) {
-    jj_scanpos = xsp;
-    if (jj_3R_8()) {
-    jj_scanpos = xsp;
-    if (jj_3R_9()) {
-    jj_scanpos = xsp;
-    if (jj_3R_10()) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_7() {
-    if (jj_3R_11()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_8() {
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
     return false;
   }
 
@@ -516,9 +494,8 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_17() {
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
-    if (jj_3R_18()) return true;
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
     return false;
   }
 
@@ -533,11 +510,6 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_10() {
     if (jj_3R_14()) return true;
     return false;
@@ -545,11 +517,6 @@ class lexer implements lexerConstants {
 
   static private boolean jj_3R_18() {
     if (jj_3R_19()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    if (jj_scan_token(TIPODATO)) return true;
     return false;
   }
 
@@ -584,6 +551,49 @@ class lexer implements lexerConstants {
     }
     }
     }
+    return false;
+  }
+
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_13() {
+    if (jj_scan_token(WHILE)) return true;
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_18()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_6() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_7()) {
+    jj_scanpos = xsp;
+    if (jj_3R_8()) {
+    jj_scanpos = xsp;
+    if (jj_3R_9()) {
+    jj_scanpos = xsp;
+    if (jj_3R_10()) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_7() {
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_8() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_15() {
+    if (jj_scan_token(TIPODATO)) return true;
     return false;
   }
 

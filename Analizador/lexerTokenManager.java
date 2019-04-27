@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /** Token Manager. */
 public class lexerTokenManager implements lexerConstants

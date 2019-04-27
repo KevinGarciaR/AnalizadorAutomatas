@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 class lexer
 {
@@ -14,6 +15,7 @@ class lexer
    Identificador identificadores;
    static Token modificador;
    static Token tipoDato;
+   static ArrayList<Expresion> listaexpresiones = new ArrayList<Expresion>();
 	public static void main(String[] args) throws ParseException, FileNotFoundException
 	{
 		try
@@ -48,6 +50,10 @@ class lexer
                         			", Valor: "+tablaSimbolos.get(i).getValor()+
                         			", Alcance: "+tablaSimbolos.get(i).getAlcance());
                         }
+                        for ( int i = 0; i < listaexpresiones.size(); i ++){
+                                System.out.println("EXPRESIONES MATEMATICAS INGRESADAS : ");
+                                System.out.println("Identificador: "+listaexpresiones.get(i).getIdentificador()+" Expresion: "+listaexpresiones.get(i).getExpresion());
+                        }
 			
 		}
 		catch(ParseException e)
@@ -73,7 +79,6 @@ TOKEN :
 | < ELSEIF: "else if" >
 | < WHILE: "while" >
 }
-
 
 TOKEN:
 {
@@ -167,7 +172,7 @@ void variable_declaration():{
 	  Identificador tempgeneral=new Identificador("","","","","","",0,"");
 	  //System.out.print(tipo.image+ " ");
 	  //System.out.print(modificador.image+ " ");
-	   tipoDatoTemp=tipoDato.image;
+	  tipoDatoTemp=tipoDato.image;
 	  modificadorTemp=modificador.image;
 	  tempgeneral.setPos(modificador.beginLine);
 	  tempgeneral.setTipo("Variable");
@@ -241,6 +246,10 @@ void variable_declarator():{}{
 	   if(valor==null) {
 	   valorTemp=valorexpresion.image;
 	   Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+	   Expresion exptemp=new Expresion();
+	   exptemp.setIdentificador(nombreTemp);
+	   exptemp.setExpresion(valorTemp);
+	   listaexpresiones.add(exptemp);
 	   }else {
          valorTemp=valor.image;
 	   }
@@ -254,8 +263,8 @@ void modificacion_variable():{}{
   }
 	identificador=<IDENTIFICADOR> <ASIGNACION> (valor=<INTEGER_LITERAL> | valor=<BOOLEAN_LITERAL> | valor=<DOUBLE_LITERAL> | valor=<STRING_LITERAL>)<PUNTOYCOMA>
 	{
-	  String identificadorvar=identificador.image;
-	  String valorvar=valor.image;
+	String identificadorvar=identificador.image;
+	String valorvar=valor.image;
 	Validacion val=new Validacion();
 	val.asignarvariabledentro(identificadorvar,valorvar, identificador.beginLine);
 	
