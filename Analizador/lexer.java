@@ -50,8 +50,8 @@ class lexer implements lexerConstants {
                                                 ", Alcance: "+tablaSimbolos.get(i).getAlcance());
                         }
                         for ( int i = 0; i < listaexpresiones.size(); i ++){
-                                System.out.println("EXPRESIONES MATEMATICAS INGRESADAS : ");
-                                System.out.println("Identificador: "+listaexpresiones.get(i).getIdentificador()+" Expresion: "+listaexpresiones.get(i).getExpresion());
+                               // System.out.println("EXPRESIONES MATEMATICAS INGRESADAS : ");
+                               // System.out.println("Identificador: "+listaexpresiones.get(i).getIdentificador()+" Expresion: "+listaexpresiones.get(i).getExpresion());
                         }
 
                 }
@@ -59,7 +59,6 @@ class lexer implements lexerConstants {
                 {
 
                         System.out.println(e.getMessage());
-                        //system.out.println("Se han encontrado errores, fall� al compilar");
                 }
         }
 
@@ -93,8 +92,7 @@ class lexer implements lexerConstants {
           tablaSimbolos.put(pos,temp);
           pos++;
     } catch (ParseException e) {
-                System.out.println("Error de Sintaxis");
-                System.out.println(e.toString());
+
     }
   }
 
@@ -198,12 +196,19 @@ class lexer implements lexerConstants {
            nombreTemp=identificador.image;
            if(valor==null) {
            valorTemp=valorexpresion.image;
-           Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+           try {
+    Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+       } catch (Exception e) {
+           System.out.println("Se encontraron variables dentro de la expresion: "+nombreTemp);
+           OperacionesExpresion oe=new OperacionesExpresion(nombreTemp);
+}
+
            Expresion exptemp=new Expresion();
            exptemp.setIdentificador(nombreTemp);
            exptemp.setExpresion(valorTemp);
            listaexpresiones.add(exptemp);
-           }else {
+
+           }else{
          valorTemp=valor.image;
            }
   }
@@ -481,29 +486,6 @@ class lexer implements lexerConstants {
     finally { jj_save(0, xla); }
   }
 
-  static private boolean jj_3R_17() {
-    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
-    if (jj_3R_18()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_11() {
-    if (jj_scan_token(MODIFICADOR)) return true;
-    if (jj_3R_15()) return true;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_9() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
   static private boolean jj_3R_12() {
     if (jj_scan_token(IF)) return true;
     if (jj_3R_17()) return true;
@@ -517,6 +499,18 @@ class lexer implements lexerConstants {
 
   static private boolean jj_3R_18() {
     if (jj_3R_19()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_11() {
+    if (jj_scan_token(MODIFICADOR)) return true;
+    if (jj_3R_15()) return true;
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1() {
+    if (jj_3R_6()) return true;
     return false;
   }
 
@@ -554,11 +548,6 @@ class lexer implements lexerConstants {
     return false;
   }
 
-  static private boolean jj_3R_16() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
   static private boolean jj_3R_13() {
     if (jj_scan_token(WHILE)) return true;
     if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
@@ -592,8 +581,24 @@ class lexer implements lexerConstants {
     return false;
   }
 
+  static private boolean jj_3R_16() {
+    if (jj_scan_token(IDENTIFICADOR)) return true;
+    return false;
+  }
+
   static private boolean jj_3R_15() {
     if (jj_scan_token(TIPODATO)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_17() {
+    if (jj_scan_token(PARENTESISIZQUIERDO)) return true;
+    if (jj_3R_18()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_9() {
+    if (jj_3R_13()) return true;
     return false;
   }
 

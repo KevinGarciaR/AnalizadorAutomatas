@@ -9,9 +9,9 @@ public class Shunting {
     Shunting operand2;
     Character charac;
     String name;
-    Shunting(Character num){
-        charac=num;
-        this.name=num+"";
+    Shunting(Character c){
+        charac=c;
+        this.name=c+"";
 
     }
 

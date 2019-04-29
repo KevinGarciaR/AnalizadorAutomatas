@@ -51,8 +51,8 @@ class lexer
                         			", Alcance: "+tablaSimbolos.get(i).getAlcance());
                         }
                         for ( int i = 0; i < listaexpresiones.size(); i ++){
-                                System.out.println("EXPRESIONES MATEMATICAS INGRESADAS : ");
-                                System.out.println("Identificador: "+listaexpresiones.get(i).getIdentificador()+" Expresion: "+listaexpresiones.get(i).getExpresion());
+                               // System.out.println("EXPRESIONES MATEMATICAS INGRESADAS : ");
+                               // System.out.println("Identificador: "+listaexpresiones.get(i).getIdentificador()+" Expresion: "+listaexpresiones.get(i).getExpresion());
                         }
 			
 		}
@@ -60,7 +60,6 @@ class lexer
 		{
 		  
 			System.out.println(e.getMessage());
-			//system.out.println("Se han encontrado errores, fall� al compilar");
 		}
 	}
 }
@@ -82,7 +81,7 @@ TOKEN :
 
 TOKEN:
 {
-< EXPRESION_REGULAR: ((< INTEGER_LITERAL >|< DOUBLE_LITERAL >)+(< MAS >| < MENOS >| < POR >| < ENTRE > )+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*)*
+< EXPRESION_REGULAR: ((< INTEGER_LITERAL >|< DOUBLE_LITERAL >|< IDENTIFICADOR >)+(< MAS >| < MENOS >| < POR >| < ENTRE > )+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >|< IDENTIFICADOR >)*)*
 | ((< PARENTESISIZQUIERDO >)*(< INTEGER_LITERAL >|< DOUBLE_LITERAL >)+(< MAS >| < MENOS >| < POR >| < ENTRE >)+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*(< PARENTESISDERECHO >)*)*
 | ((< PARENTESISIZQUIERDO >)*(< INTEGER_LITERAL >|< DOUBLE_LITERAL >)+(< MAS >| < MENOS >| < POR >| < ENTRE >)+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*(< PARENTESISDERECHO >)*((< MAS >| < MENOS >| < POR >| < ENTRE >)+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*((< MAS >| < MENOS >| < POR >| < ENTRE >|< PARENTESISIZQUIERDO >|< PARENTESISDERECHO >)*)*)*)
 | ((< PARENTESISIZQUIERDO >)*(< INTEGER_LITERAL >|< DOUBLE_LITERAL >)+(< MAS >| < MENOS >| < POR >| < ENTRE >)+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*(< PARENTESISIZQUIERDO >)*(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*(< MAS >| < MENOS >| < POR >| < ENTRE >)+(< INTEGER_LITERAL>|< DOUBLE_LITERAL >)*(< PARENTESISDERECHO>)*)*
@@ -153,8 +152,8 @@ void programa():{}{
 	}  
 		
 	}catch(ParseException e){
-		System.out.println("Error de Sintaxis");
-		System.out.println(e.toString());
+		//System.out.println("Error de Sintaxis");
+		//System.out.println(e.toString());
 		
 	}
 	
@@ -245,12 +244,19 @@ void variable_declarator():{}{
 	   nombreTemp=identificador.image;
 	   if(valor==null) {
 	   valorTemp=valorexpresion.image;
-	   Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+	   try {
+    Triplos.Arbol evaluaexp=new Triplos.Arbol(valorTemp);
+       } catch (Exception e) {
+	   System.out.println("Se encontraron variables dentro de la expresion: "+nombreTemp);
+	   OperacionesExpresion oe=new OperacionesExpresion(nombreTemp);
+} 
+
 	   Expresion exptemp=new Expresion();
 	   exptemp.setIdentificador(nombreTemp);
 	   exptemp.setExpresion(valorTemp);
 	   listaexpresiones.add(exptemp);
-	   }else {
+
+	   }else{
          valorTemp=valor.image;
 	   }
 	}

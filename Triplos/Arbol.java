@@ -1,18 +1,41 @@
 package Triplos;
 import java.util.Stack;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 public class Arbol{
 	static String pos="0xABAB";
     static int memoria=0;
     static int index=1;
     public Arbol(String valorexpresion) {
-      valorexpresion=valorexpresion.replaceAll(" ","");
-      System.out.println("Expresion ingresada: "+valorexpresion);
-      Shunting parentNode=shunt(valorexpresion);
-      System.out.println("Utilizando PostOrden");
-      postOrder(parentNode);
-      System.out.println("|Codigo Intermedio Generado - Triplos|");
-      dfs(parentNode);
+
+    		  if(String.valueOf(valorexpresion.charAt(valorexpresion.length()-1)).contains("+") || 
+    		     String.valueOf(valorexpresion.charAt(valorexpresion.length()-1)).contains("-") ||
+    		     String.valueOf(valorexpresion.charAt(valorexpresion.length()-1)).contains("*") ||
+    		     String.valueOf(valorexpresion.charAt(valorexpresion.length()-1)).contains("/")){
+    			  throw new NullPointerException("Error");
+    		  }else {
+
+    	      valorexpresion=valorexpresion.replaceAll(" ","");
+    	      System.out.println("Expresion ingresada: "+valorexpresion);
+    	      Shunting parentNode=shunt(valorexpresion);
+    	      System.out.println("Utilizando PostOrden");
+    	      postOrder(parentNode);
+    	      System.out.println("|Codigo Intermedio Generado - Triplos|");
+    	      dfs(parentNode);
+    	      //Evaluar expresion
+    	      ScriptEngineManager manager = new ScriptEngineManager();
+    	        ScriptEngine engine = manager.getEngineByName("js");
+    	        
+    	        try {;
+    	            Object result = engine.eval(valorexpresion);
+    	            System.out.println(valorexpresion+" = "+result);
+    	        } catch(ScriptException se) {
+    	            se.printStackTrace();
+    	        }
+    		  }
 	}
 
 	public static void main(String[] args) {
